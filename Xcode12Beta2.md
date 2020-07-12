@@ -1,33 +1,21 @@
-# Xcode 12 Beta Release Notes
+# Xcode 12 Beta 2 Release Notes
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12 beta includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS 11. The Xcode 12 beta release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 beta requires a Mac running macOS Catalina 10.15.4 or later.
+Xcode 12 beta 2 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS 11. The Xcode 12 beta 2 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 beta 2 requires a Mac running macOS Catalina 10.15.4 or later.
 
-For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Apps Beta Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12-for-macos-universal-apps-beta-release-notes).
+For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Apps Beta 2 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12-for-macos-universal-apps-beta-release-notes).
 
 ### General
 
-#### New Features
+#### New Features in Xcode 12 beta 2
 
-*   Code completions have a new, focused, user interface, making it easier to find a completion. Completions are also more accurate and up to 12 times faster in Xcode 12. (56087948, 58010475)
+*   Code completions have a new, focused, user interface, making it easier to find a completion. Completions are also more accurate and up to 15 times faster in Xcode 12. (56087948, 58010475)
 
-*   For WWDC Labs, click Help > Mirror Screen Device (WWDC) to mirror a physical device’s screen onto the Mac. Use this menu item to share a connected device’s content over Webex. (62478345)
+#### Resolved in Xcode 12 beta 2
 
-#### Known Issues
-
-*   Xcode versions prior to Xcode 11.5 crash on launch on macOS 11. (59991056)
-
-    **Workaround**: Run the following command in the Terminal app to avoid crashes when starting Xcode:
-
-        defaults write com.apple.dt.Xcode DVTDisableMainThreadChecker 1
-
-    Then deactivate Main Thread Checker in Xcode: Edit Scheme -> Run/Test -> Diagnostics -> Uncheck Main Thread Checker.
-
-*   Running a developer command-line tool without the command-line tools installed or invoking `xcode-select --install` directly may not trigger installation of the command-line tools. (63881429)
-
-    **Workaround**: Download and install the Command Line Tools from the [Apple Developer](https://developer.apple.com/) web site.
+*   Running a developer command-line tool without the command-line tools installed or invoking `xcode-select --install` directly will trigger installation of the command-line tools. (63881429)
 
 #### Deprecations
 
@@ -45,7 +33,7 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 #### Known Issues
 
-*   When Optimize Interface for Mac is enabled for apps built with Mac Catalyst and there is no Mac asset, the app should get the Mac Scaled or iPad asset, before resorting to the Universal asset. Instead, it just uses the Universal asset, unless the app’s deployment target is set to macOS 10.15. (63368950)
+*   When you select Optimize Interface for Mac for apps built with Mac Catalyst and there is no Mac asset, Xcode incorrectly uses the Universal asset even if you provide a Mac Scaled or iPad asset. (63368950)
 
 ### Build System
 
@@ -55,21 +43,9 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 ### Core ML
 
-#### Known Issues
+#### Resolved in Xcode 12 beta 2
 
-*   Xcode does not correctly encrypt a model archive for Core ML model deployment when you request an archive in the Utilities tab. Core ML still produces a valid archive when Encrypt Model is enabled, but the model isn’t properly encrypted. (64331416)
-
-    **Workaround**: Use the `coremlcompiler` command to generate the encrypted archive with:
-
-        xcrun coremlcompiler \
-              compile \
-              <path/to/mlmodel/file> \
-              <path/to/compiled/model/destination/directory> \
-              --create-archive \
-              <path/to/model/archive/destination/directory> \
-              --encrypt \
-              <path/to/mlmodelkey/file>
-
+*   Xcode now correctly encrypts a model archive for Core ML model deployment when Encrypt Model is enabled. (64331416)
 
 #### Deprecations
 
@@ -81,9 +57,9 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   Xcode will crash if you select the memory browser in the Debug Navigator. (54767689)
 
-*   Xcode Memory Graph navigator may incorrectly classify the origin of types defined in SwiftUI apps in the current Xcode workspace. As a result, instances of these types may be sorted incorrectly in the debug navigator, and may not be displayed at all when “Show only content from workspace” is selected. (63899779)
+*   The Memory Graph Debugger may incorrectly classify the origin of types defined in SwiftUI apps in the current Xcode workspace. The Debug navigator may list these types in the wrong sections and incorrectly filter them out when you select Show only content from workspace. (63899779)
 
-    **Workaround**: Deselect “Show only content from workspace” in order to discover objects of all types.
+    **Workaround**: Deselect Show only content from workspace to discover objects of all types.
 
 *   Xcode may crash when selecting the FPS Debug Gauge while debugging a game project on macOS. (64213691)
 
@@ -95,11 +71,15 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   Xcode may crash after capturing a view hierarchy. (64334442)
 
+*   When debugging with `lldb`, `po self` may not display the address of a pointer in Swift code on a simulated tvOS device. You may see the error message “Cannot create Swift scratch context (couldn’t load the Swift stdlib)”. (65150335)
+
+    **Workaround**: Debug to device, or update to macOS Catalina 10.15.5 or later.
+
 ### Devices
 
-#### Known Issues
+#### Resolved in Xcode 12 beta 2
 
-*   Devices running beta releases of iOS or iPadOS 13.6 can’t be used for development with Xcode 12 beta. (64220694)
+*   Devices running beta releases of iOS or iPadOS 13.6 can be used for development with Xcode 12 beta 2. (64220694)
 
 ### Documentation Viewer
 
@@ -135,13 +115,13 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 #### Deprecations
 
-*   Xcode 12 no longer supports setting the Can Draw Concurrently property in Interface Builder. To continue using it, set the property in code. (42437767)
+*   Interface Builder no longer provides access to the Can Draw Concurrently property. You may still configure this behavior in code with [`canDrawConcurrently`](https://developer.apple.com/documentation/appkit/nsview/1483425-candrawconcurrently). (42437767)
 
 ### Organizer
 
-#### Known Issues
+#### Resolved in Xcode 12 beta 2
 
-*   The Organizer window may clip some text in the sidebar. (64281631)
+*   The Organizer window no longer clips text in the sidebar. (64281631)
 
 ### Playgrounds
 
@@ -151,13 +131,19 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
     **Workaround**: Use View > Navigators > Project to reveal the Project Navigator, then select the Playground manually.
 
+### Previews
+
+#### Resolved in Xcode 12 beta 2
+
+*   Packages that contain previews can now update without fully rebuilding the active scheme. (51030302)
+
 #### Known Issues
 
 *   Xcode does not provide previews for macOS widget extensions. (57990060)
 
 *   Live SwiftUI previews for macOS are not interactive when the containing [`PreviewProvider`](https://developer.apple.com/documentation/swiftui/previewprovider) has more than one preview. (62156572)
 
-*   You cannot interact with Widget Views in previews. (62517078)
+*   You can’t interact with widget views in previews. (62517078)
 
 *   Animations may not work in live SwiftUI previews. (63333795)
 
@@ -183,11 +169,19 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   Previews of widgets that pass `nil` to the [`widgetURL(_:)`](https://developer.apple.com/documentation/swiftui/view/widgeturl(_:)) modifier may be blank. (64315456)
 
+### Project Navigator
+
+#### Resolved in Xcode 12 beta 2
+
+*   Selecting a file in the Project navigator using VoiceOver now opens the selected file in the editor. (64461629)
+
+*   Deleting a Core Data model from the Project navigator no longer causes Xcode to crash. (64606064)
+
 #### Known Issues
 
 *   Renaming the root project node in the Project navigator may cause Xcode to crash. (63998499)
 
-*   Selecting items in the Navigator sidebar may show a black highlight rather than the macOS accent color (64139237)
+*   Selecting items in the navigation sidebar may show a black highlight rather than the macOS accent color. (64139237)
 
 ### Reality Composer
 
@@ -225,11 +219,19 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   Under heavy load, requests to launch an app in a simulated device may be delayed by 10 to 20 seconds, even as Xcode or the OS in the simulated device stay responsive. (63348920)
 
-*   `simctl` status bar overrides don’t work properly on pre-iOS 14 runtimes. (63958080)
+*   `simctl` status bar overrides don’t work properly on simulated devices running iOS or iPadOS 13.6 or earlier. (63958080)
 
 *   When Simulator is open in a full-screen split and you start another simulated device, the new device window attempts to start in full-screen and the transition animation is incorrect. (64005856)
 
     **Workaround**: Exit full-screen mode.
+
+*   Launching apps in Simulator may result in a “Timed out waiting for Simulator.app to become ready” if Simulator is already running. (64508635)
+
+    **Workaround**: Click on Simulator’s app icon in the Dock while Xcode is reporting “Waiting for <iOS Simulator Device> to start”.
+
+*   If you start pointer capture mode with an upper-left hot corner enabled, Simulator will trigger the hot corner action. (64805156) (FB7797684)
+
+    **Workaround**: Disable the upper-left hot corner.
 
 #### Deprecations
 
@@ -257,7 +259,7 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 #### Deprecations
 
-*   In order to be compatible with new security features in macOS 11, Xcode extensions must be built against Xcode 12 or later and embed `XcodeKit.framework` in order to remain compatible. A rebuilt Xcode extension remains compatible with older versions of Xcode and macOS. (51822755)
+*   For compatibility with new security features in macOS 11, Xcode extensions must be built using Xcode 12 and must embed `XcodeKit.framework`. An Xcode extension rebuilt with these tools remains compatible with older versions of Xcode and macOS. (51822755)
 
 ### Swift
 
@@ -265,11 +267,11 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   The compiler may use significantly more memory than previous releases, potentially causing compilation to fail on some systems. (59908962)
 
-*   Xcode 12 beta does not include support for using `@main` in place of `UIApplicationMain` or `NSApplicationMain`. (60502727, 63291088)
+*   Xcode 12 beta 2 does not include support for using `@main` in place of `UIApplicationMain` or `NSApplicationMain`. (60502727, 63291088)
 
-*   Xcode 12 beta does not infer attributes for Swift function builders from protocol requirements. (63629316)
+*   Xcode 12 beta 2 does not infer attributes for Swift function builders from protocol requirements. (63629316)
 
-*   Incremental compilation may miscompile when adding a member to a type that is used both in the same file that defines it and in another file. (64074744)
+*   Incremental compilation may miscompile when adding a member to a type that is used in both the file that defines it and another file. (64074744)
 
     **Workaround**: Add `-disable-fine-grained-dependencies` to the Other Swift Flags build setting, or clean the build folder and recompile.
 
@@ -281,11 +283,15 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
     **Workaround**: Close and reopen the workspace.
 
+*   Swift Packages may not respect the “Build Active Architecture Only” project build setting. (64344067)
+
+    **Workaround**: Use the “Any iOS Device (arm64)”, “Any watchOS Device”, or “Any tvOS Device” destination to build for all applicable devices.
+
 ### Testing
 
 #### Known Issues
 
-*   [`XCTAssert`](https://developer.apple.com/documentation/xctest/xctassert) and related assertion macros in Objective-C and Objective-C++ no longer include a reference to `self` to access the current test case. This may result in new warnings being emitted when building code with `-Wunused-variable` or `-Wunused-lambda-capture`, which declares an explicit variable or lambda capture for `self`. (60017011)
+*   [`XCTAssert`](https://developer.apple.com/documentation/xctest/xctassert) and related assertion macros in Objective-C and Objective-C++ no longer include a reference to `self` to access the current test case. The compiler may now emit new warnings when building code with `-Wunused-variable` or `-Wunused-lambda-capture`, which declares an explicit variable or lambda capture for `self`. (60017011)
 
     **Workaround**: Remove the `self` variable or lambda capture because it’s no longer required by [`XCTAssert`](https://developer.apple.com/documentation/xctest/xctassert).
 
@@ -321,6 +327,8 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   Clang now warns about incorrect format strings that are specified in an [`NSLocalizedString`](https://developer.apple.com/documentation/foundation/nslocalizedstring) macro. (23622446) (FB5412403)
 
+*   The `std::is_scalar` trait is now true for Block types. This allows using blocks in new places like `std::optional`. (57892832)
+
 #### Resolved in Xcode 12 beta
 
 *   `@dynamic` on a property is ignored if the property is redeclared in a protocol that inherits from another protocol. (45503561)
@@ -334,6 +342,20 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 #### New Features in Xcode 12 beta
 
 *   Added support for Scalable Vector Graphic (SVG) image assets. These preserve their vector representation with deployment targets of macOS 10.15 or later, iOS 13 or later, and iPadOS 13 or later. (18389814)
+
+*   The required pixel size is now shown for complication placeholder images. (21135944)
+
+*   Adding a new color now includes a Dark Appearance variant by default. If you leave this empty, Xcode will use the Any Appearance color value for both Light Appearance and Dark Appearance. You can use the asset’s Attribute inspector to hide the unused variant. (55720623)
+
+*   The “Mac Catalyst” asset variant has been renamed to “Mac Scaled”. Xcode will use this asset in targets that build with Mac Catalyst when “Scale Interface to Match iPad” is selected (including on macOS 10.15). When “Optimize Interface for Mac” is selected, Xcode will prefer the Mac asset variant. (58883008)
+
+*   The “New Asset” menu has been changed to organize asset types by platform. (59233882)
+
+#### Resolved in Xcode 12 beta
+
+*   Resolved an issue where hidden folders inside an Asset Catalog could cause Xcode to repeatedly reload the catalog. (35275782) (FB5390092)
+
+*   Asset Catalog `Contents.json` files will be normalized upon editing for better stability and compatibility with future edits. Keys are written in alphabetical order, and a newline character is present at the end of the file. (53886564)
 
 ### Build System
 
@@ -707,7 +729,7 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 #### New Features in Xcode 12 beta
 
-*   Repeated code completion invocations inside Swift function bodies are now up to 12 times faster compared to Xcode 11.5. (59830963)
+*   Repeated code completion invocations inside Swift function bodies are now up to 15 times faster compared to Xcode 11.5. (59830963)
 
 #### Resolved in Xcode 12 beta
 
