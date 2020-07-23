@@ -7,6 +7,18 @@ Xcode 12 beta 2 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Apps Beta 2 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12-for-macos-universal-apps-beta-release-notes).
 
+### General
+
+#### Known Issues for macOS Universal Apps Beta 2
+
+*   SwiftUI code that uses SpriteKit may not compile. (63350569)
+
+*   To build the Release configuration or run the Profile action on a simulated iOS device, set the Build Active Architecture Only build setting to Yes for both the Debug and Release configurations. (64317985)
+
+*   Projects fail to build for simulated devices. (65077539)
+
+    **Workaround**: Specify `x86_64` as the build architecture.
+
 #### Deprecations
 
 *   Quartz Composer is deprecated and won’t launch.
@@ -47,19 +59,25 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
     **Workaround**: Debug to device, or update to macOS Catalina 10.15.5 or later.
 
+*   Debugging a Rosetta process using LLDB from the command line can take a long time to launch. (63793175)
+
+    **Workaround**: Open Xcode to prepare the cache used for debugging Rosetta processes.
+
 *   Xcode may crash when selecting the FPS Debug Gauge while debugging a game project on macOS. (64213691)
 
     **Workaround**: Select another gauge or show a different file in the editor before clicking the Stop button.
 
 *   Xcode may crash after capturing a view hierarchy. (64334442)
 
+*   A widget extension may not activate when being debugged, and the debugger will not attach. (64273278)
+
+    **Workaround**: Delete the containing iOS App from the device and Run again from Xcode.
+
 *   The Memory Graph Debugger may incorrectly classify the origin of types defined in SwiftUI apps in the current Xcode workspace. The Debug navigator may list these types in the wrong sections and incorrectly filter them out when you select “Show only content from workspace.” (63899779)
 
     **Workaround**: Deselect “Show only content from workspace” to discover objects of all types.
 
-*   A widget extension may not activate when being debugged, and the debugger will not attach. (64273278)
-
-    **Workaround**: Delete the containing iOS App from the device and Run again from Xcode.
+*   Xcode may crash when opening a debug gauge. (64181692)
 
 ### Documentation Viewer
 
@@ -90,6 +108,8 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 ### Interface Builder
 
 #### Known Issues
+
+*   Storyboards and XIBs may have rendering issues when working with large images. (64093939)
 
 *   In the Mac Catalyst view of a storyboard, some destination view controllers from a show or push segue could have issues rendering content. (64320758)
 
@@ -171,6 +191,8 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 #### Known Issues
 
+*   A Mac Catalyst app signed to run locally on macOS may fail to run with the Mac (Rosetta) run destination. (64421496)
+
 *   Automatic signing fails to enable the Sign in with Apple capability for App Clip targets. (64452719)
 
     **Workaround**: Sign in to [your developer account](https://developer.apple.com/account) and enable “Sign in with Apple” manually on your App Clip’s app identifier. Then return to Xcode and click the Try Again button in the Signing & Capabilities pane.
@@ -249,7 +271,7 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   Swift Packages may not respect the “Build Active Architecture Only” project build setting. (64344067)
 
-    **Workaround**: Use the “Any iOS Device (arm64)”, “Any watchOS Device”, or “Any tvOS Device” destination to build for all applicable devices.
+    **Workaround**: Use the “Any Mac”, “Any iOS Device (arm64)”, “Any watchOS Device”, or “Any tvOS Device” destination to build for all applicable devices.
 
 ### Testing
 
@@ -293,6 +315,12 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   Devices running beta releases of iOS or iPadOS 13.6 can be used for development with Xcode 12 beta 2. (64220694)
 
+### General
+
+#### Resolved in Xcode 12 for macOS Universal Apps Beta 2
+
+*   Metal code compiles when using deployment target 11.0. (64344660)
+
 ### Organizer
 
 #### Resolved in Xcode 12 beta 2
@@ -326,6 +354,10 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 *   The new [`LibraryContentProvider`](https://developer.apple.com/documentation/developertoolssupport/librarycontentprovider) protocol gives you the ability to show your views and modifiers in Xcode’s library. (56423420)
 
 *   When bringing iPad apps to macOS, you can now use the Optimize Interface for Mac target setting to use native macOS controls and Mac resolution. (56344940)
+
+#### New Features in Xcode 12 for macOS Universal Apps beta
+
+*   Xcode’s run destination menu now shows an Any Mac destination for Mac schemes. This is a new build destination that builds each target in the scheme for all of their supported architectures, regardless of the native architecture of the local Mac. (62736613)
 
 ### Apple Clang Compiler
 
