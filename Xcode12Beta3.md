@@ -1,23 +1,21 @@
-# Xcode 12 Beta 2 Release Notes
+# Xcode 12 Beta 3 Release Notes
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12 beta 2 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS 11. The Xcode 12 beta 2 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 beta 2 requires a Mac running macOS Catalina 10.15.4 or later.
-
-For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Apps Beta 2 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12-for-macos-universal-apps-beta-release-notes).
+Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS 11. The Xcode 12 beta 3 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 beta 3 requires Apple silicon running macOS Big Sur 11 beta or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
 
 ### General
 
-#### Known Issues for macOS Universal Apps Beta 2
+#### Resolved in Xcode 12 beta 3
 
-*   SwiftUI code that uses SpriteKit may not compile. (63350569)
+*   Fixed an issue that prevented compilation of SwiftUI code that uses SpriteKit. (63350569)
 
-*   To build the Release configuration or run the Profile action on a simulated iOS device, set the Build Active Architecture Only build setting to Yes for both the Debug and Release configurations. (64317985)
+*   Compilable code completions for SwiftUI APIs now correctly handle overloaded methods. (64037686)
 
-*   Projects fail to build for simulated devices. (65077539)
+*   Fixed a crash that sometimes occurred when adding an Apple ID account to Xcode’s Accounts preferences pane. (64806671) (FB7798083)
 
-    **Workaround**: Specify `x86_64` as the build architecture.
+*   Xcode 12 beta 3 supports iOS, tvOS, and watchOS device and simulated device development on Apple silicon. (64317985, 65077539, 65701094)
 
 #### Deprecations
 
@@ -39,7 +37,17 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 ### Build System
 
+#### New Features in Xcode 12 beta 3
+
+*   XCFrameworks can now include `.dSYM` and `.bcsymbolmap` debugging symbol files in your library bundle with the `-debug-symbols` flag. Run the command `xcodebuild -create-xcframework -help` for additional usage information. (64910707)
+
+#### Resolved in Xcode 12 beta 3
+
+*   Fixed an issue where Xcode didn’t properly copy headers while processing an XCFramework. (64754387) (FB7786076)
+
 #### Deprecations
+
+*   The Build Settings editor no longer includes the Valid Architectures build setting (`VALID_ARCHS`), and its use is discouraged. Instead, there is a new Excluded Architectures build setting (`EXCLUDED_ARCHS`). (15145028)
 
 *   The legacy build system is deprecated, and will be removed in a future release. (62742902)
 
@@ -51,27 +59,23 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 ### Debugging
 
+#### Resolved in Xcode 12 beta 3
+
+*   Fixed a crash that could occur when you selected the memory browser in the Debug Navigator. (54767689)
+
+*   When debugging with `lldb`, `po self` now displays the address of a pointer in Swift code on a simulated tvOS device. (58477904, 65150335)
+
+*   Debugging a Rosetta process using `lldb` from the command line launches more quickly. (63793175)
+
+*   Fixed a crash that could occur when selecting the FPS Debug Gauge while debugging a game project on macOS. (64213691)
+
+*   Fixed a crash that could occur after capturing a view hierarchy. (64334442)
+
+*   Debugging iOS WidgetKit extensions run on macOS 11 fails with an error. (65698467)
+
 #### Known Issues
 
-*   Xcode will crash if you select the memory browser in the Debug Navigator. (54767689)
-
-*   When debugging with `lldb`, `po self` may not display the address of a pointer in Swift code on a simulated tvOS device. You may see the error message “Cannot create Swift scratch context (couldn’t load the Swift stdlib)”. (65150335)
-
-    **Workaround**: Debug to device, or update to macOS Catalina 10.15.5 or later.
-
-*   Debugging a Rosetta process using LLDB from the command line can take a long time to launch. (63793175)
-
-    **Workaround**: Open Xcode to prepare the cache used for debugging Rosetta processes.
-
-*   Xcode may crash when selecting the FPS Debug Gauge while debugging a game project on macOS. (64213691)
-
-    **Workaround**: Select another gauge or show a different file in the editor before clicking the Stop button.
-
-*   Xcode may crash after capturing a view hierarchy. (64334442)
-
-*   A widget extension may not activate when being debugged, and the debugger will not attach. (64273278)
-
-    **Workaround**: Delete the containing iOS App from the device and Run again from Xcode.
+*   iPad and iPhone Apps on Mac may not have access to On-Demand Resources when built and run from Xcode. (62074124)
 
 *   The Memory Graph Debugger may incorrectly classify the origin of types defined in SwiftUI apps in the current Xcode workspace. The Debug navigator may list these types in the wrong sections and incorrectly filter them out when you select “Show only content from workspace.” (63899779)
 
@@ -81,19 +85,11 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 ### Documentation Viewer
 
-#### Known Issues
+#### Resolved in Xcode 12 beta 3
 
-*   On macOS 11, a page in the Developer Documentation window may appear blank or its content may appear to be mixed with content from the previously viewed page. (64204470)
+*   SwiftUI, DeveloperToolsSupport, WidgetKit, SwiftSystem, and Combine now include beta indicators in Xcode’s documentation viewer. (64380885)
 
-    **Workaround**: Scroll in the content area to prompt the window to redraw the content.
-
-*   SwiftUI, DeveloperToolsSupport, WidgetKit, SwiftSystem, and Combine are missing beta indicators in Xcode’s documentation viewer. (64380885)
-
-    **Workaround**: Browse the documentation online to view the beta indicators.
-
-*   SwiftUI, DeveloperToolsSupport, WidgetKit, SwiftSystem, and Combine may have incorrect Mac Catalyst availability in Xcode’s documentation viewer. (64386417, 64526330)
-
-    **Workaround**: Browse the documentation online to view the correct Mac Catalyst API availability information.
+*   SwiftUI, DeveloperToolsSupport, WidgetKit, SwiftSystem, and Combine now have correct Mac Catalyst availability in Xcode’s documentation viewer. (64386417, 64526330)
 
 ### Instruments
 
@@ -101,21 +97,35 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   The Animation Hitches template doesn’t show hitch intervals when instrumenting macOS apps. (61082729)
 
+*   iOS 14, iPadOS 14, tvOS 14, and watchOS 7 simulated devices have reduced performance and higher memory consumption compared to simulated devices running earlier OS versions. (65037128)
+
 #### Deprecations
 
 *   The `instruments` command is now deprecated in favor of its replacement: `xctrace`. `xctrace` records, imports, and exports data from Instruments `.trace` files. (36641078)
 
 ### Interface Builder
 
-#### Known Issues
+#### New Features in Xcode 12 beta 3
 
-*   Storyboards and XIBs may have rendering issues when working with large images. (64093939)
+*   Interface Builder now supports the two-column and three-column styles for [`UISplitViewController`](https://developer.apple.com/documentation/uikit/uisplitviewcontroller) introduced in iOS 14. (57025285)
 
-*   In the Mac Catalyst view of a storyboard, some destination view controllers from a show or push segue could have issues rendering content. (64320758)
+*   You can now show and hide the Minimap with the Minimap command in the Editor menu. (63831585)
+
+#### Resolved in Xcode 12 beta 3
+
+*   Fixed an issue that would sometimes omit iOS text styles from the inspectors. (51854358) (FB6169763)
+
+*   Fixed performance issues with [`NSTabView`](https://developer.apple.com/documentation/appkit/nstabview) and hidden views in a storyboard or `.xib` canvas. (63008369, 64314634)
+
+*   Fixed rendering issues when with large images and [`SCNView`](https://developer.apple.com/documentation/scenekit/scnview) for storyboards and `.xib` canvases on Apple silicon. (64093939)
+
+*   Fixed content rendering issues for some destination view controllers from a show or push segue in the Mac Catalyst view of a storyboard. (64320758)
 
 #### Deprecations
 
 *   Interface Builder no longer provides access to the Can Draw Concurrently property. You may still configure this behavior in code with [`canDrawConcurrently`](https://developer.apple.com/documentation/appkit/nsview/1483425-candrawconcurrently). (42437767)
+
+*   QTCaptureView and QTMovieView are deprecated and no longer supported. Remove these views from storyboards and `.xib` files. (64263402)
 
 ### Playgrounds
 
@@ -127,23 +137,23 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 ### Previews
 
+#### Resolved in Xcode 12 beta 3
+
+*   On-device SwiftUI previews for watchOS complications are now supported. (64097600)
+
+*   Resolved a timeout that could occur in SwiftUI previews for Mac Catalyst. (64098969)
+
+*   Fixed a bug that could result in blank previews for widgets that pass `nil` to the [`widgetURL(_:)`](https://developer.apple.com/documentation/swiftui/view/widgeturl(_:)) modifier. (64315456)
+
+*   Xcode now supports SwiftUI Previews for iOS when running on Apple silicon. (65101322)
+
 #### Known Issues
-
-*   On-device SwiftUI previews for watchOS complications are not supported, even when the Preview button on the SwiftUI canvas is enabled. (64097600)
-
-*   SwiftUI previews for Mac Catalyst may time out. (64098969)
-
-*   Previews of widgets that pass `nil` to the [`widgetURL(_:)`](https://developer.apple.com/documentation/swiftui/view/widgeturl(_:)) modifier may be blank. (64315456)
-
-*   SwiftUI previews for Mac Catalyst may fail when signed to run locally. (64135721)
-
-    **Workaround**: Configure a development team for your app target in the Signing & Capabilities pane of the Project editor.
 
 *   Xcode doesn’t provide previews for macOS widget extensions. (57990060)
 
 *   Live SwiftUI previews for macOS aren’t interactive when the containing [`PreviewProvider`](https://developer.apple.com/documentation/swiftui/previewprovider) has more than one preview. (62156572)
 
-*   You can’t interact with widget views in previews. (62517078)
+*   You can’t select views in Widgets in the Previews canvas. (62517078)
 
 *   Animations may not work in live SwiftUI previews. (63333795)
 
@@ -161,11 +171,29 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 ### Project Navigator
 
+#### Resolved in Xcode 12 beta 3
+
+*   Fixed an issue where the Show in Finder contextual menu item was disabled for some items in the Project Navigator. (63934092)
+
+*   Fixed a crash that could occur when renaming the root project node in the Project navigator. (63998499)
+
+*   Selecting items in the navigation sidebar no longer shows a black highlight rather than the macOS accent color. (64139237)
+
+*   Fixed a crash that could occur while validating menu items. (64409911
+
+*   Fixed an issue where double-clicking a group in the Project Navigator didn’t expand or collapse the group. (64622953) (FB7749742)
+
+*   Fixed an issue where using a keyboard shortcut to show a navigator didn’t focus the navigator outline. (64627462) (FB7751100)
+
+*   Fixed an issue where the Filter in Navigator menu item didn’t function. (64647545) (FB7758103)
+
+*   Fixed a crash which could occur when performing the Reveal in Project Navigator command. (65235467)
+
+*   Fixed an issue where Xcode didn’t allow you to drag a storyboard to a new location in its parent group. (65241585)
+
 #### Known Issues
 
-*   Renaming the root project node in the Project navigator may cause Xcode to crash. (63998499)
-
-*   Selecting items in the navigation sidebar may show a black highlight rather than the macOS accent color. (64139237)
+*   App Clip schemes offer “My Mac (Designed for iPad)” or “My Mac (Designed for iPhone)” run destinations, even though App Clips are not supported on macOS. (65702469)
 
 ### Reality Composer
 
@@ -183,39 +211,39 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 ### Sanitizers
 
-#### Known Issues
+#### Resolved in Xcode 12 beta 3
 
-*   Thread Sanitizer is not supported on Simulator for watchOS and fails with an error that a runtime library is missing. (64421085)
+*   Xcode now supports Thread Sanitizer when debugging on simulated watchOS devices. (64421085)
 
 ### Signing and Distribution
+
+#### Resolved in Xcode 12 beta 3
+
+*   Automatic signing can now enable the Sign in with Apple capability for App Clip targets. (64452719)
+
+*   App Clips can now use the [NetworkExtension](https://developer.apple.com/documentation/networkextension) framework and [`Hotspot Configuration Entitlement`](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_networking_hotspotconfiguration) to configure Wi-Fi networks. (64966949)
 
 #### Known Issues
 
 *   A Mac Catalyst app signed to run locally on macOS may fail to run with the Mac (Rosetta) run destination. (64421496)
 
-*   Automatic signing fails to enable the Sign in with Apple capability for App Clip targets. (64452719)
-
-    **Workaround**: Sign in to [your developer account](https://developer.apple.com/account) and enable “Sign in with Apple” manually on your App Clip’s app identifier. Then return to Xcode and click the Try Again button in the Signing & Capabilities pane.
+*   App Clips can no longer access Wallet passes. If you’ve already added the Wallet capability to an App Clip target, you may not be able to build or submit your app to App Store Connect. Remove the Wallet capability in the target editor’s Signing & Capabilities pane and disable or delete any code that makes use of this removed feature. (65244156)
 
 ### Simulator
 
+#### Resolved in Xcode 12 beta 3
+
+*   Improved app launch times in simulated devices under heavy load. (63348920)
+
+*   When Simulator is open in a full-screen split with Xcode and you start another simulated device, the new device window no longer attempts to start in full-screen. (64005856)
+
+*   Fixed a bug where Launching apps in Simulator while Simulator is already running sometimes failed with an error of “Timed out waiting for Simulator.app to become ready”. (64508635)
+
+*   Simulator no longer triggers the hot corner action if you start pointer capture mode with an upper-left hot corner enabled. (64805156) (FB7797684)
+
 #### Known Issues
 
-*   Under heavy load, requests to launch an app in a simulated device may be delayed by 10 to 20 seconds, even as Xcode or the OS in the simulated device stay responsive. (63348920)
-
-*   When Simulator is open in a full-screen split and you start another simulated device, the new device window attempts to start in full-screen and the transition animation is incorrect. (64005856)
-
-    **Workaround**: Exit full-screen mode.
-
-*   Launching apps in Simulator may result in a “Timed out waiting for Simulator.app to become ready” if Simulator is already running. (64508635)
-
-    **Workaround**: Click on Simulator’s app icon in the Dock while Xcode is reporting “Waiting for <iOS Simulator Device> to start”.
-
-*   If you start pointer capture mode with an upper-left hot corner enabled, Simulator will trigger the hot corner action. (64805156) (FB7797684)
-
-    **Workaround**: Disable the upper-left hot corner.
-
-*   When simulating a push notification in Simulator with the `content-available` key set, the system calls [`application(_:performFetchWithCompletionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623125-application) instead of [`application(_:didReceiveRemoteNotification:fetchCompletionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application). (60426170) (FB7625283)
+*   When simulating a push notification in Simulator with the `content-available` key set, the system calls [`application(_:performFetchWithCompletionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623125-application) instead of [`application(_:didReceiveRemoteNotification:fetchCompletionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application). (60426170, 60974170) (FB7625283)
 
 *   `simctl` status bar overrides don’t work properly on simulated devices running iOS or iPadOS 13.6 or earlier. (63958080)
 
@@ -249,17 +277,15 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 ### Swift
 
-#### Known Issues
+#### Resolved in Xcode 12 beta 3
 
-*   The compiler may use significantly more memory than previous releases, potentially causing compilation to fail on some systems. (59908962)
+*   Reduced the compiler’s memory use. (59908962)
 
-*   Xcode 12 beta 2 does not include support for using `@main` in place of `UIApplicationMain` or `NSApplicationMain`. (60502727, 63291088)
+*   Xcode 12 beta 3 includes support for using `@main` in place of `@UIApplicationMain` or `@NSApplicationMain` in UIKit- or AppKit-based apps. (60502727, 60502804, 63291088)
 
-*   Xcode 12 beta 2 does not infer attributes for Swift function builders from protocol requirements. (63629316)
+*   Swift infers attributes for Swift function builders from protocol requirements. (63629316)
 
-*   Incremental compilation may miscompile when adding a member to a type that is used in both the file that defines it and another file. (64074744)
-
-    **Workaround**: Add `-disable-fine-grained-dependencies` to the Other Swift Flags build setting, or clean the build folder and recompile.
+*   Adding a member to a type that is used in both the file that defines it and another file no longer causes a miscompilation in incremental compiles. (64074744)
 
 ### Swift Packages
 
@@ -275,11 +301,21 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 ### Testing
 
+#### Resolved in Xcode 12 beta 3
+
+*   UI target queries can now better target cells in the iOS Share Sheet. (49961747)
+
+*   iOS app unit tests for Swift code execute more reliably on Apple silicon. (65308436)
+
 #### Known Issues
 
 *   [`XCTAssert`](https://developer.apple.com/documentation/xctest/xctassert) and related assertion macros in Objective-C and Objective-C++ no longer include a reference to `self` to access the current test case. The compiler may now emit new warnings when building code with `-Wunused-variable` or `-Wunused-lambda-capture`, which declares an explicit variable or lambda capture for `self`. (60017011)
 
     **Workaround**: Remove the `self` variable or lambda capture because it’s no longer required by [`XCTAssert`](https://developer.apple.com/documentation/xctest/xctassert).
+
+*   Xcode can’t run UI tests for an iOS or iPadOS application on Apple silicon. If the active scheme/test plan includes both unit and UI tests, Xcode skips the UI tests, and logs a message that the UI tests were skipped in the test activity log. (60059698)
+
+*   Xcode doesn’t support running tests in parallel for an iOS or iPadOS application on Apple silicon. The tests run sequentially instead. (60514529)
 
 *   Animation performance metrics (total number of hitches, hitches total duration, hitch time ratio, frame rate, and frame count) when using an animation `os_signpost` coupled with the [`XCTOSSignpostMetric`](https://developer.apple.com/documentation/xctest/xctossignpostmetric) are unavailable for simulated devices. (63766090)
 
@@ -289,9 +325,17 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
     **Workaround**: Disable automatic screenshots in your scheme or test plan.
 
+*   Building Mac Catalyst apps for Macs with Apple silicon fails when Code Coverage is enabled. (65003639)
+
+*   iOS unit tests fail to launch on Apple silicon if the test target’s Host Application setting is set to None. (65309328)
+
+    **Workaround**: Set the host application to an iOS application target.
+
 #### Deprecations
 
 *   Xcode now supports debugging apps and running tests on iOS devices running iOS 9.0 and above. (59561001)
+
+## Updates in Xcode 12 beta 2
 
 ### General
 
@@ -315,9 +359,9 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   Devices running beta releases of iOS or iPadOS 13.6 can be used for development with Xcode 12 beta 2. (64220694)
 
-### General
+#### Metal
 
-#### Resolved in Xcode 12 for macOS Universal Apps Beta 2
+#### Resolved in Xcode 12 beta 2
 
 *   Metal code compiles when using deployment target 11.0. (64344660)
 
@@ -354,8 +398,6 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 *   The new [`LibraryContentProvider`](https://developer.apple.com/documentation/developertoolssupport/librarycontentprovider) protocol gives you the ability to show your views and modifiers in Xcode’s library. (56423420)
 
 *   When bringing iPad apps to macOS, you can now use the Optimize Interface for Mac target setting to use native macOS controls and Mac resolution. (56344940)
-
-#### New Features in Xcode 12 for macOS Universal Apps beta
 
 *   Xcode’s run destination menu now shows an Any Mac destination for Mac schemes. This is a new build destination that builds each target in the scheme for all of their supported architectures, regardless of the native architecture of the local Mac. (62736613)
 
@@ -571,11 +613,11 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 #### Resolved in Xcode 12 beta
 
-*   Fixed a bug where `IBDesignable` views were not using the intrinsic content size the first time the storyboard or XIB is displayed. (23234553) (FB5797024)
+*   Fixed a bug where `IBDesignable` views weren’t using the intrinsic content size the first time Interface Builder displays the storyboard or `.xib`. (23234553) (FB5797024)
 
 *   When an `IBDesignable` view fails to build, there is now an error directly on the view in canvas. Clicking the error icon on the IBDesignable property in the Identity inspector, now provides a popup that displays the error for easier debugging. (56408987)
 
-*   IBDesignables in Cocoa storyboards and XIBs will now use the intrinsic content size provided by the `IBDesignable` view when overriding NSView.intrinsicContentSize() (56419405)
+*   Storyboards and `.xib` files will now use the intrinsic content size provided by an `IBDesignable` view when overriding [`intrinsicContentSize`](https://developer.apple.com/documentation/appkit/nsview/1526996-intrinsiccontentsize) on an `NSView`. (56419405)
 
 *   Fixed a bug where the Spell Checking property was ignored on [`UITextView`](https://developer.apple.com/documentation/uikit/uitextview). (60750116) (FB7636246)
 
@@ -595,7 +637,7 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   The linker now supports `@filename` response files. The contents of the file are substituted into the argument list in place of the file name. The linker is typically invoked through Clang, which already supports response files. To have the linker parse a response file instead of Clang, use `-Wl,@filename`. (54356464) (FB7037642)
 
-*   When the deployment target is iOS 14 or higher, the linker now converts Objective-C method lists into a new, smaller, read-only relative methods list in `__TEXT`. These binaries won’t work on older versions of iOS or iPadOS. (56880461)
+*   When the deployment target is iOS 14 or higher, the linker now converts Objective-C method lists into a new, smaller, read-only relative methods list in `__TEXT`. These binaries won’t work on older versions of iOS. (56880461)
 
 *   The linker now reports a warning if you link with a dylib but don’t use any symbols from it. If you really mean to do this, you can either suppress all such warnings with `-Wl,-warn_unused_dylibs` or mark unused frameworks individually as needed, using `-needed_framework Foo` instead of `-framework Foo`. For example, in Other Linker Flags, add `-Wl,-needed_framework,Foo`. (60936600)
 
@@ -789,7 +831,7 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   Fixed an issue where editing a file outside of Xcode would cause Xcode to crash on launch. (58272739)
 
-*   Fixed issues editing `Date` and `Data` values in propety list files where the changes would not get saved. (58836269)
+*   Fixed issues where Xcode wouldn’t properly save edits to `Date` and `Data` values in property list files. (58836269)
 
 *   Improved the display order in code completion to prioritize symbols matching parameter types. (59066628)
 
@@ -823,7 +865,7 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 *   Swift indentation has been overhauled, greatly improving the indentation of chained methods calls, especially those that involve nested or trailing closures. (25519439) (FB5472851)
 
-*   Improved the error message in certain cases of requirement failures on associated types. Specifically, this improves the error message when using SwiftUI’s [`List`](https://developer.apple.com/documentation/swiftui/list) initializer that takes a collection of identifiable data with an element type that doesn’t conform to Identifiable. (51519565) (FB6130940)
+*   Improved the error message when using SwiftUI’s [`List`](https://developer.apple.com/documentation/swiftui/list) initializer that takes a collection of identifiable data with an element type that doesn’t conform to [`Identifiable`](https://developer.apple.com/documentation/swift/identifiable). (51519565) (FB6130940)
 
     For example, the following code:
     ```swift
@@ -854,7 +896,7 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
     }
     ```
 
-*   Exclusivity violations within code that computes the `default` argument during [`Dictionary`](https://developer.apple.com/documentation/swift/dictionary) access are now diagnosed. ([SR-11700](https://bugs.swift.org/browse/SR-11700), 56378713)
+*   The compiler now diagnoses exclusivity violations within code that computes the `default` argument during [`Dictionary`](https://developer.apple.com/documentation/swift/dictionary) access. ([SR-11700](https://bugs.swift.org/browse/SR-11700), 56378713)
     ```swift
     struct Container {
       static let defaultKey = 0
@@ -888,7 +930,7 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
     // No error.
     ```
 
-*   Swift now allows the implicit use of `self` in `@escaping` closures when reference cycles are unlikely to occur. This feature was implemented in [SE-0269](https://github.com/apple/swift-evolution/blob/master/proposals/0269-implicit-self-explicit-capture.md) (56408426)
+*   Swift now allows the implicit use of `self` in `@escaping` closures when reference cycles are unlikely to occur. ([SE-0269](https://github.com/apple/swift-evolution/blob/master/proposals/0269-implicit-self-explicit-capture.md), 56408426)
 
     First, implicit use of `self` in `@escaping` closures is now allowed if the user has explicitly captured `self` in the closure’s capture list, so the following code is now valid:
     ```swift
@@ -953,7 +995,7 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
     struct B {
     }
     ```
-    Before this change, any file using either `A` or `B` would have been recompiled. Now, files that use only `B` will not be recompiled.
+    Before this change, the compiler would have recompiled any file using either `A` or `B`. Now, the compiler doesn’t recompile files that use only `B`.
 
     If you experience problems with this feature, disable it by passing `-disable-type-fingerprints` into the Swift compiler via the `Other Swift Flags` build setting. If you still experience problems, disable the new dependency infrastructure by passing `-disable-fine-grained-dependencies` into the Swift compiler via the `Other Swift Flags` build setting. (59954707)
 
@@ -970,7 +1012,7 @@ For Xcode updates related to Apple silicon, see [Xcode 12 for macOS Universal Ap
 
 #### Resolved in Xcode 12 beta
 
-*   Unapplied references to protocol methods are now supported. Previously this only worked for methods defined in structs, enums, and classes. (21289579) (FB5819096)
+*   Swift now supports unapplied references to protocol methods. Previously this only worked for methods defined in structs, enums, and classes. (21289579) (FB5819096)
 
     For example:
     ```swift
