@@ -1,9 +1,9 @@
-# Xcode 12 Beta 3 Release Notes
+# Xcode 12 Beta 4 Release Notes
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS 11. The Xcode 12 beta 3 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 beta 3 requires Apple silicon running macOS Big Sur 11 beta or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
+Xcode 12 beta 4 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS 11. The Xcode 12 beta 4 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 beta 4 requires Apple silicon running macOS Big Sur 11 beta or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
 
 ### Apple Clang Compiler
 
@@ -13,15 +13,15 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 ### Asset Catalogs
 
-#### Known Issues
+#### Resolved
 
-*   When you select Optimize Interface for Mac for apps built with Mac Catalyst and there is no Mac asset, Xcode incorrectly uses the Universal asset even if you provide a Mac Scaled or iPad asset. (63368950)
+*   When you select Optimize Interface for Mac for apps built with Mac Catalyst and there is no Mac asset, Xcode now uses the Universal asset only if you don’t provide a Mac Scaled or iPad asset. (63368950)
 
 ### Build System
 
 #### Deprecations
 
-*   The Build Settings editor no longer includes the Valid Architectures build setting (`VALID_ARCHS`), and its use is discouraged. Instead, there is a new Excluded Architectures build setting (`EXCLUDED_ARCHS`). (15145028)
+*   The Build Settings editor no longer includes the Valid Architectures build setting (`VALID_ARCHS`), and its use is discouraged. Instead, there is a new Excluded Architectures build setting (`EXCLUDED_ARCHS`). If a project includes `VALID_ARCHS`, the setting is displayed in the User-Defined section of the Build Settings editor. (15145028)
 
 *   The legacy build system is deprecated, and will be removed in a future release. (62742902)
 
@@ -35,6 +35,8 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 #### Known Issues
 
+*   Debugging, testing, and profiling on devices running iOS 14, iPadOS 14, watchOS 7, or tvOS 14 beta 4 and later requires Xcode 12 beta 3 or later. Older versions of Xcode may display an error of “Failed to start remote service” when attempting to develop on unsupported operating system versions. (60850305)
+
 *   iPad and iPhone Apps on Mac may not have access to On-Demand Resources when built and run from Xcode. (62074124)
 
 *   The Memory Graph Debugger may incorrectly classify the origin of types defined in SwiftUI apps in the current Xcode workspace. The Debug navigator may list these types in the wrong sections and incorrectly filter them out when you select “Show only content from workspace.” (63899779)
@@ -42,6 +44,10 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
     **Workaround**: Deselect “Show only content from workspace” to discover objects of all types.
 
 *   Xcode may crash when opening a debug gauge. (64181692)
+
+*   On Apple silicon, debugging a tvOS app on a simulated device fails with an error “Could not attach to pid”. (65375566)
+
+    **Workaround**: Run the app on an Apple TV, or in a simulated tvOS device on an Intel Mac. Alternatively, edit the Run scheme and deselect “Debug executable”.
 
 ### Instruments
 
@@ -56,6 +62,16 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 *   The `instruments` command is now deprecated in favor of its replacement: `xctrace`. `xctrace` records, imports, and exports data from Instruments `.trace` files. (36641078)
 
 ### Interface Builder
+
+#### New Features
+
+*   In AppKit apps, you can now edit the Render Mode and Symbol Scale of SF Symbols for storyboard and `.xib` files. When you select an SF Symbol in the image picker, two additional properties expand below the image name. To display SF Symbols that support full color, set the Render Mode to Original. (61844681)
+
+*   Added support for new UISwitch properties, [`preferredStyle`](https://developer.apple.com/documentation/uikit/uiswitch/3621874-preferredstyle) and [`title`](https://developer.apple.com/documentation/uikit/uiswitch/3621876-title). (62320185)
+
+#### Known Issues
+
+*   Interface Builder doesn’t allow creating a classic style [`UISplitViewController`](https://developer.apple.com/documentation/uikit/uisplitviewcontroller). (65966010) (FB8107534)
 
 #### Deprecations
 
@@ -72,6 +88,12 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
     **Workaround**: Use View > Navigators > Project to reveal the Project Navigator, then select the Playground manually.
 
 ### Previews
+
+#### Resolved
+
+*   Previews now work correctly when you select the universal “Any Mac” run destination. (64513915)
+
+*   Fixed an issue where previews fail in packages with non-root source files. (64628934) (FB7751511)
 
 #### Known Issues
 
@@ -101,11 +123,15 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 *   App Clip schemes offer “My Mac (Designed for iPad)” or “My Mac (Designed for iPhone)” run destinations, even though App Clips aren’t supported on macOS. (65702469)
 
+*   The Find panel may stop responding to mouse events after you resize the window. (66256586)
+
+    **Workaround**: Switch to a different document and then back to the one you’d like to edit.
+
 ### Reality Composer
 
-#### Known Issues
+#### Resolved
 
-*   Reality Composer may crash when adding a CSV file to a chart asset. (63782093)
+*   Fixed a crash that could occur in Reality Composer when adding a CSV file to a chart asset. (63782093)
 
 #### Deprecations
 
@@ -117,19 +143,29 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 *   A Mac Catalyst app signed to run locally on macOS may fail to run with the Mac (Rosetta) run destination. (64421496)
 
-*   App Clips can no longer access Wallet passes. If you’ve already added the Wallet capability to an App Clip target, you may not be able to build or submit your app to App Store Connect. Remove the Wallet capability in the target editor’s Signing & Capabilities pane and disable or delete any code that makes use of this removed feature. (65244156)
+*   App Clips can no longer access Wallet passes with the Pass Type IDs Entitlement. However, App Clips can determine whether a specific pass is already present in Wallet and prompt the user to add a pass if necessary. If you’ve already added the Wallet capability to an App Clip target, you may not be able to build or submit your app to App Store Connect. Remove the Wallet capability in the target editor’s Signing & Capabilities pane and disable or delete any code that makes use of this removed feature. (65244156)
 
 ### Simulator
 
+#### New Features
+
+*   Simulator now supports 64-bit processes on watchOS 7. Make sure your project uses `$(STANDARD_ARCHS)` to build for x86_64 on Intel Macs, and for arm64 on Macs with Apple silicon. This configuration allows you to check your code is 64-bit clean, and makes it possible to simulate a watchOS device on Apple silicon, which doesn’t support 32-bit processes. (66352876)
+
+#### Resolved
+
+*   `simctl` status bar overrides now work on simulated devices running iOS or iPadOS 13.6 or earlier. (63958080)
+
 #### Known Issues
 
-*   `simctl` status bar overrides don’t work properly on simulated devices running iOS or iPadOS 13.6 or earlier. (63958080)
-
 *   When simulating a push notification in Simulator with the `content-available` key set, the system calls [`application(_:performFetchWithCompletionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623125-application) instead of [`application(_:didReceiveRemoteNotification:fetchCompletionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application). (60426170, 60974170) (FB7625283)
+
+*   Simulators for iOS 13, tvOS 13, and watchOS 6 or earlier don’t run on the Developer Transition Kit, even though Xcode Preferences allows you to download these older runtimes. Future Macs with Apple silicon will support some older iOS and tvOS Simulators. (66115743)
 
 #### Deprecations
 
 *   When running in macOS 11, Simulator supports iOS 11.4 or later. (59938106)
+
+*   Simulators for watchOS 6 or earlier require 32-bit processes that are not supported on Macs with Apple silicon. (66352760))
 
 ### Source Control
 
@@ -157,6 +193,12 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 ### Swift
 
+#### Known Issues
+
+*   Widgets may crash when built for release. (65862827)
+
+    **Workaround**: Set `DEAD_CODE_STRIPPING` to `NO` in the extension target’s build settings. When you upload the application to App Store Connect, also unset “Include bitcode for iOS content” in the App Store Connect distribution options.
+
 ### Swift Packages
 
 #### Known Issues
@@ -170,6 +212,10 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
     **Workaround**: Use the “Any Mac”, “Any iOS Device (arm64)”, “Any watchOS Device”, or “Any tvOS Device” destination to build for all applicable devices.
 
 ### Testing
+
+#### Resolved
+
+*   `xcodebuild` now respects the `-parallel-testing-worker-count` option when running tests in parallel. (64495567)
 
 #### Known Issues
 
@@ -199,6 +245,7 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 *   Xcode now supports debugging apps and running tests on iOS devices running iOS 9.0 and above. (59561001)
 
+## Updates in Xcode 12 Beta 3
 
 ### General
 
@@ -211,12 +258,6 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 *   Fixed a crash that sometimes occurred when adding an Apple ID account to Xcode’s Accounts preferences pane. (64806671) (FB7798083)
 
 *   Xcode 12 beta 3 supports iOS, tvOS, and watchOS device and simulated device development on Apple silicon. (64317985, 65077539, 65701094)
-
-#### Deprecations
-
-*   Quartz Composer is deprecated and won’t launch.
-
-    If you need to move assets out of existing compositions, use the Quartz Composer app in the Additional Tools for Xcode 11.4 package from the [Apple Developer](https://developer.apple.com) website. (64181908)
 
 ### Build System
 
@@ -306,11 +347,9 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 ### Reality Composer
 
-#### Known Issues
+#### Resolved
 
-*   Reality Composer from the App Store isn’t compatible with iOS 14 beta or iPadOS 14 beta. (64509815)
-
-    **Workaround**: Use the Reality Composer beta, available via the [Apple Developer](https://developer.apple.com) website.
+*   Reality Composer 1.4.1 restores compatibility with beta releases of iOS 14 and iPadOS 14. (64509815)
 
 ### Sanitizers
 
@@ -319,6 +358,10 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 *   Xcode now supports Thread Sanitizer when debugging on simulated watchOS devices. (64421085)
 
 ### Signing and Distribution
+
+#### New Features
+
+*   Xcode now supports automatic and manual signing for development and distribution of iPhone and iPad apps on Macs with Apple silicon. You must register your Mac with Apple silicon on the [Developer website](https://developer.apple.com) in order to run Mac, Mac Catalyst, iPhone, or iPad apps. Registration requires your Mac’s hardware identifier, which you can find in Xcode’s error message or in the System Information app’s Hardware > Provisioning UDID field. (54476962, 65752056)
 
 #### Resolved
 
@@ -985,12 +1028,6 @@ Xcode 12 beta 3 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
       }
     }
     ```
-
-*   Swift 5.3 introduces `#filePath`, a special literal which produces the path to the current source file.
-
-    In Swift 5.3, `#filePath` and `#file` have identical behavior. However, a future version of Swift will change `#file` to produce a shorter, privacy-preserving string that is better suited to production binaries; for tests and other code which need a full path to the source file, `#filePath` will continue to produce one. ([SE-0274](https://github.com/apple/swift-evolution/blob/master/proposals/0274-magic-file.md), 58586626)
-
-    This release stages in `#filePath` early to ease the future transition when `#file`’s behavior changes. Once `#file`‘s behavior changes, you’ll need to examine any uses in your projects – particularly in their tests – to see if they should use `#filePath` instead. However, `#file`‘s default behavior won’t change in Swift 5.3, so you don’t need to do that work yet. If you would like to update your project early, you can enable the `#file` behavior change in Swift 5.3 by adding `-enable-experimental-concise-pound-file` to your Xcode project’s OTHER_SWIFT_FLAGS build setting.
 
 *   A property with an attached property wrapper can now rely on type inference to infer the wrapped value type when using default initialization without empty parentheses on the wrapper attribute. For example:
     ```swift
