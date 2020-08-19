@@ -1,9 +1,9 @@
-# Xcode 12 Beta 4 Release Notes
+# Xcode 12 Beta 5 Release Notes
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12 beta 4 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS 11. The Xcode 12 beta 4 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 beta 4 requires Apple silicon running macOS Big Sur 11 beta or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
+Xcode 12 beta 5 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS 11. The Xcode 12 beta 5 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 beta 5 requires Apple silicon running macOS Big Sur 11 beta or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
 
 ### Apple Clang Compiler
 
@@ -27,17 +27,15 @@ Xcode 12 beta 4 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 ### Debugging
 
+#### Resolved
+
+*   iPad and iPhone Apps on Mac once again have access to On-Demand Resources when built and run from Xcode. (62074124)
+
+*   The Memory Graph Debugger now correctly classifies the origin of types defined in SwiftUI apps in the current Xcode workspace. The Debug navigator lists these types in the correct sections, and includes them when you select “Show only content from workspace”. (63899779)
+
+*   Resolved an issue on Apple silicon where debugging a tvOS app on a simulated device failed with an error “Could not attach to pid”. (65375566)
+
 #### Known Issues
-
-*   iPad and iPhone Apps on Mac may not have access to On-Demand Resources when built and run from Xcode. (62074124)
-
-*   The Memory Graph Debugger may incorrectly classify the origin of types defined in SwiftUI apps in the current Xcode workspace. The Debug navigator may list these types in the wrong sections, and incorrectly filter them out when you select “Show only content from workspace”. (63899779)
-
-    **Workaround**: Deselect “Show only content from workspace” to discover objects of all types.
-
-*   On Apple silicon, debugging a tvOS app on a simulated device fails with an error “Could not attach to pid”. (65375566)
-
-    **Workaround**: Run the app on an Apple TV, or in a simulated tvOS device on an Intel Mac. Alternatively, edit the Run scheme and deselect “Debug executable”.
 
 *   Debugging, testing, and profiling on devices running iOS 14, iPadOS 14, watchOS 7, or tvOS 14 beta 4 and later requires Xcode 12 beta 3 or later. Older versions of Xcode may display an error of “Failed to start remote service” when attempting to develop on unsupported operating system versions. (60850305)
 
@@ -49,17 +47,21 @@ Xcode 12 beta 4 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 *   The Animation Hitches template doesn’t show hitch intervals when instrumenting macOS apps. (61082729)
 
-*   iOS 14, iPadOS 14, tvOS 14, and watchOS 7 simulated devices have reduced performance and higher memory consumption compared to simulated devices running earlier OS versions. (65037128)
-
 #### Deprecations
 
 *   The `instruments` command is now deprecated in favor of its replacement: `xctrace`. `xctrace` records, imports, and exports data from Instruments `.trace` files. (36641078)
 
 ### Interface Builder
 
-#### Known Issues
+#### Resolved
 
-*   Interface Builder doesn’t allow creating a classic style [`UISplitViewController`](https://developer.apple.com/documentation/uikit/uisplitviewcontroller). (65966010) (FB8107534)
+*   [`UISplitViewController`](https://developer.apple.com/documentation/uikit/uisplitviewcontroller) instances in Interface Builder again use the Unspecified style by default, unless they have a supplementary view controller connected. To take advantage of iOS 14 improvements, select Double Column from the Style menu in the inspector. (65966010) (FB8107534)
+
+*   Fixed an issue where you couldn’t drag to connect an object in a storyboard or `.xib` file to an existing Objective-C outlet. (66293812)
+
+*   Fixed a crash that could occur when enabling Safe Area Layout Guides for an iOS document that contains an associated view. (64564818)
+
+*   The media library now displays deprecated symbol information in the details area for SF Symbols. (63692751)
 
 #### Deprecations
 
@@ -77,15 +79,17 @@ Xcode 12 beta 4 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 ### Previews
 
+#### Resolved
+
+*   Live SwiftUI previews for macOS in a containing [`PreviewProvider`](https://developer.apple.com/documentation/swiftui/previewprovider) with more than one preview are once again interactive. (62156572)
+
+*   SwiftUI previews are more reliable for files that are part of a framework linked by both an app and a widget. (63785700)
+
+*   Improved reliability of live previews for Mac Catalyst starting on macOS 11. (63998976)
+
+*   Live SwiftUI previews for Mac Catalyst no longer exit when brought forward or made visible. (64151326)
+
 #### Known Issues
-
-*   Live SwiftUI previews for macOS aren’t interactive when the containing [`PreviewProvider`](https://developer.apple.com/documentation/swiftui/previewprovider) has more than one preview. (62156572)
-
-*   SwiftUI previews may fail when a file is part of a framework that is linked by both an app and a widget. (63785700)
-
-*   Live previews for Mac Catalyst may fail when run on macOS 11. (63998976)
-
-*   Live SwiftUI previews for Mac Catalyst exit when brought forward or made visible. (64151326)
 
 *   Xcode doesn’t provide previews for macOS widget extensions. (57990060)
 
@@ -101,11 +105,11 @@ Xcode 12 beta 4 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 ### Project Navigator
 
+#### Resolved
+
+*   The Find panel remains responsive to mouse events after you resize the window. (66256586)
+
 #### Known Issues
-
-*   The Find panel may stop responding to mouse events after you resize the window. (66256586)
-
-    **Workaround**: Switch to a different document and then back to the one you’d like to edit.
 
 *   App Clip schemes offer “My Mac (Designed for iPad)” or “My Mac (Designed for iPhone)” run destinations, even though App Clips aren’t supported on macOS. (65702469)
 
@@ -123,6 +127,8 @@ Xcode 12 beta 4 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 *   App Clips can no longer access Wallet passes with the Pass Type IDs Entitlement. However, App Clips can determine whether a specific pass is already present in Wallet and prompt the user to add a pass if necessary. If you’ve already added the Wallet capability to an App Clip target, you may not be able to build or submit your app to App Store Connect. Remove the Wallet capability in the target editor’s Signing & Capabilities pane and disable or delete any code that makes use of this removed feature. (65244156)
 
+*   When distributing an iOS archive using the Ad Hoc or Development method, Xcode does not validate that Macs with Apple silicon are included in the provisioning profile generated by automatic signing. (66803918)
+
 ### Simulator
 
 #### Known Issues
@@ -139,11 +145,11 @@ Xcode 12 beta 4 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 ### Source Editor
 
+#### Resolved
+
+*   Fixed a hang that could occur at launch if some extensions were enabled, or when enabling those extensions. (61952790)
+
 #### Known Issues
-
-*   An Xcode extension may cause Xcode to hang on launch, or upon enabling the extension. (61952790)
-
-    **Workaround**: Disable the Xcode extension in the Extensions pane in System Preferences.
 
 *   A new Xcode Source Editor Extension target doesn’t automatically set up embedding `XcodeKit.framework` in the extension. (59274389)
 
@@ -155,11 +161,27 @@ Xcode 12 beta 4 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 ### Swift
 
+#### Resolved
+
+*   Fixed an issue where the compiler reported “Failed to produce diagnostic for expression” when the real issue was a type mismatch involving a type that can be bridged to an Objective-C type. (65254452) (FB7872426)
+
+*   Fixed an issue where the compiler reported “Failed to produce diagnostic for expression” in a function builder body when the return type of `buildBlock` did not match the declared type of the function or property. This could happen in SwiftUI code if there is a mistake in the type annotation of a view’s `var body`. (65413640) (FB7940152)
+
+*   Fixed a compiler crash that could happen in a function builder body when the return type of the `buildBlock` method did not meet the requirements of a declared opaque result type. This could happen in SwiftUI code when a view’s body did not conform to the `View` protocol. (66247196)
+
+*   Fixed a compiler crash that could happen when a function builder body contained an empty switch statement. This issue could also cause a SourceKit crash while typing a switch statement in a SwiftUI view body. (65983237) (FB8111944)
+
+*   Fixed a compiler crash that happened in expressions involving `super` when the type of `super` had an error. (50819554)
+
 #### Known Issues
 
 *   Widgets may crash when built for release. (65862827)
 
     **Workaround**: Set `DEAD_CODE_STRIPPING` to `NO` in the extension target’s build settings. When you upload the application to App Store Connect, also unset “Include bitcode for iOS content” in the App Store Connect distribution options.
+
+*   Widgets may crash when bitcode is enabled or Strip Style is set to All Symbols. (66402358)
+
+    **Workaround**: Turn off `ENABLE_BITCODE` and do not set `STRIP_STYLE` to All Symbols in the Widget target’s build settings.
 
 ### Swift Packages
 
@@ -175,13 +197,13 @@ Xcode 12 beta 4 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 ### Testing
 
+#### Resolved
+
+*   Screenshot capture no longer causes a “Lost connection to `testmanagerd`” test failure when running UI tests on devices running iOS 14 beta 5. (63946264)
+
+*   Enabling Code Coverage no longer prevents building Mac Catalyst apps for Macs with Apple silicon. (65003639)
+
 #### Known Issues
-
-*   Screenshot capture may cause a “Lost connection to `testmanagerd`” test failure when running UI tests on certain iOS devices. (63946264)
-
-    **Workaround**: Disable automatic screenshots in your scheme or test plan.
-
-*   Building Mac Catalyst apps for Macs with Apple silicon fails when Code Coverage is enabled. (65003639)
 
 *   [`XCTAssert`](https://developer.apple.com/documentation/xctest/xctassert) and related assertion macros in Objective-C and Objective-C++ no longer include a reference to `self` to access the current test case. The compiler may now emit new warnings when building code with `-Wunused-variable` or `-Wunused-lambda-capture`, which declares an explicit variable or lambda capture for `self`. (60017011)
 
@@ -245,11 +267,13 @@ Xcode 12 beta 4 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 ### Source Control
 
-#### Known Issues
+#### New Features
 
-*   If you create a Git repository before setting Git’s author information, Xcode won’t be able to rename files, and every file in the repository will be untracked. (64260085)
+*   You can now specify the default branch name for new repositories in the Source Control pane of Xcode’s Preferences. This preference uses the `init.defaultBranch` Git config option available in Git version 2.28. (66232985)
 
-    **Workaround**: Set up Git author information via Xcode Preferences or the command-line `git` before creating a new project. Alternatively, create an initial commit after you set up Git author information.
+#### Resolved
+
+*   In a project backed by a Git repository, Xcode can rename files that aren’t tracked by Git. (63791730, 64260085)
 
 ### Testing
 
