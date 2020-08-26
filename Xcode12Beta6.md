@@ -1,9 +1,9 @@
-# Xcode 12 Beta 5 Release Notes
+# Xcode 12 Beta 6 Release Notes
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12 beta 5 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS 11. The Xcode 12 beta 5 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 beta 5 requires Apple silicon running macOS Big Sur 11 beta or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
+Xcode 12 beta 6 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS 11. The Xcode 12 beta 6 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 beta 6 requires Apple silicon running macOS Big Sur 11 beta or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
 
 ### Apple Clang Compiler
 
@@ -33,6 +33,14 @@ Xcode 12 beta 5 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 *   Xcode may crash when opening a debug gauge. (64181692)
 
+### Devices
+
+#### Known Issues
+
+*   On macOS 11 beta 5 or later, Xcode may crash when you open the Devices and Simulators window. (66932201)
+
+    **Workaround**: Make sure that you have trusted all mobile devices paired with the Mac, disconnect any devices that you don’t wish to use for development, and set “Show scroll bars” to Always in the General pane of System Preferences.
+
 ### Instruments
 
 #### Known Issues
@@ -44,6 +52,10 @@ Xcode 12 beta 5 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 *   The `instruments` command is now deprecated in favor of its replacement: `xctrace`. `xctrace` records, imports, and exports data from Instruments `.trace` files. (36641078)
 
 ### Interface Builder
+
+#### Resolved
+
+*   Fixed an issue that prevented new iOS and tvOS app projects that use Objective-C and storyboard files from compiling. (66867795, 67024094)
 
 #### Deprecations
 
@@ -127,7 +139,7 @@ Xcode 12 beta 5 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and mac
 
 #### Known Issues
 
-*   Widgets may crash when built for release. (65862827)
+*   Widgets may crash when built for release. (65862827, 67001496)
 
     **Workaround**: Set `DEAD_CODE_STRIPPING` to `NO` in the extension target’s build settings. When you upload the application to App Store Connect, also unset “Include bitcode for iOS content” in the App Store Connect distribution options.
 
