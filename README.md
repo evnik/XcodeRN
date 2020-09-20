@@ -1,5 +1,13 @@
 # Xcode Beta Release Notes
 
+### Xcode 12.2
+
+Release notes | Source | Captured at | Diffs
+-|-|-|-
+[Xcode 12.2 Beta](Xcode12.2Beta1.md) | [Xcode 12.2 Beta Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12_2-beta-release-notes) | 09/19/2020 6:05 PM PDT | [`Source`](https://github.com/evnik/XcodeRN/compare/Xcode12.2%2FBeta1%5E..Xcode12.2%2FBeta1?diff=split) [`Rich`](https://github.com/evnik/XcodeRN/compare/Xcode12.2%2FBeta1%5E..Xcode12.2%2FBeta1?short_path=655a714#diff-655a7146fb495afcfca2897f7ae4a685) |
+
+### Xcode 12
+
 Release notes | Source | Captured at | Diffs
 -|-|-|-
 [Xcode 12 Beta 1](Xcode12Beta1.md) | [Xcode 12 Beta Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12-beta-release-notes) | 06/22/2020 3:29 PM PDT | N/A |
