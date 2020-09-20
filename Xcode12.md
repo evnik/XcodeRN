@@ -1,10 +1,10 @@
-# Xcode 12 GM Seed Release Notes
+# Xcode 12 Release Notes
 
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS Catalina 10.15.6. The Xcode 12 GM seed release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 requires an Intel-based Mac running macOS Catalina 10.15.4 or later.
+Xcode 12 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS Catalina 10.15.6. The Xcode 12 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12 requires an Intel-based Mac running macOS Catalina 10.15.4 or later.
 
 ### General
 
@@ -21,6 +21,8 @@ Xcode 12 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS Cata
 #### Resolved
 
 *   Compilable code completions for SwiftUI APIs now correctly handle overloaded methods. (64037686)
+
+*   Fixed an issue in Xcode 12 build 12A7208 which could cause build failures for iOS or tvOS apps using [StoreKit](https://developer.apple.com/documentation/storekit) or [Authentication Services](https://developer.apple.com/documentation/authenticationservices) with SwiftUI, when targeting simulated devices or using SwiftUI Previews. (68252534)
 
 ### Apple Clang Compiler
 
@@ -170,6 +172,20 @@ Xcode 12 includes SDKs for iOS 14, iPadOS 14, tvOS 14, watchOS 7, and macOS Cata
 *   Debug App Clips using the scheme created for the App Clip. In the scheme the environment variable `_XCAppClipURL` can be used to set the App Clip experience URL for the debugging session. (59404002)
 
 *   The view debugger now generates runtime issues for performance Optimization Opportunities for [`CALayer`](https://developer.apple.com/documentation/quartzcore/calayer). Choose Editor > Show Layers to view CALayers in the view debugger. Choose Editor > Show Optimization Opportunities to show or hide performance runtime issues. (60103476)
+
+*   Xcode 12 now encrypts the connection between Xcode and paired devices, protecting against an attacker in a privileged network position executing arbitrary code on connected iOS, iPadOS, watchOS, or tvOS devices during a remote debug session. (60386733)
+
+    These security benefits are available when Xcode 12 connects to devices running iOS 14, iPadOS 14, watchOS 7, tvOS 14, or later versions. These OS versions also refuse debugger connections from older Xcode releases. Xcode 12 continues to support debugging for older OS versions, but without the new encryption.
+
+    If you’re unable to upgrade to Xcode 12 or need to continue development on devices running older OS versions, you can help protect yourself with either of the following measures:
+
+    *   Connect Xcode to your devices over private and secured networks (including a direct connection);
+
+        or
+
+    *   Physically connect your device to the Mac running Xcode using a cable, and ensure that the “Connect via Network” checkbox in the Xcode Devices and Simulators Window is unselected for these devices.
+
+    For more information about the security content of this update, see [Apple security updates](https://support.apple.com/en-us/HT201222).
 
 *   Debug > Attach to Process and Debug > Detach are now in the middle of the menu, closer to the rest of the debug menu items. (60390611)
 
