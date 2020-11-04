@@ -12,6 +12,7 @@ Release notes | Source | Captured at | Diffs
 Release notes | Source | Captured at | Diffs
 -|-|-|-
 [Xcode 12.1](Xcode12.1.md) | [Xcode 12.1 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12_1-release-notes) | 10/27/2020 10:31 AM PDT | N/A |
+[Xcode 12.1.1 RC](Xcode12.1.1RC.md) | [Xcode 12.1.1 RC Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12_1_1-release-notes) | 10/31/2020 4:00 PM PDT | [`Source`](https://github.com/evnik/XcodeRN/compare/Xcode12.1.1%2FRC%5E..Xcode12.1.1%2FRC?diff=split) [`Rich`](https://github.com/evnik/XcodeRN/compare/Xcode12.1.1%2FRC%5E..Xcode12.1.1%2FRC?short_path=620567a#diff-620567aba1ef91e23068e444e25ec10fe60a7f0f8daa5fbf69eea45b1e3eaf30) |
 
 ### Xcode 12
 
