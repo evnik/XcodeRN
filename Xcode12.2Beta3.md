@@ -1,10 +1,10 @@
-# Xcode 12.2 Beta 2 Release Notes
+# Xcode 12.2 Beta 3 Release Notes
 
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12.2 beta 2 includes SDKs for iOS 14.2, iPadOS 14.2, tvOS 14.2, watchOS 7.1, and macOS Big Sur 11. The Xcode 12.2 beta 2 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.2 beta 2 requires a Mac with Apple silicon running macOS Big Sur 11 or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
+Xcode 12.2 beta 3 includes SDKs for iOS 14.2, iPadOS 14.2, tvOS 14.2, watchOS 7.1, and macOS Big Sur 11. The Xcode 12.2 beta 3 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.2 beta 3 requires a Mac with Apple silicon running macOS Big Sur 11 or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
 
 ### General
 
@@ -24,35 +24,67 @@ Xcode 12.2 beta 2 includes SDKs for iOS 14.2, iPadOS 14.2, tvOS 14.2, watchOS 7.
 
 ### Build System
 
-#### Resolved Issues
+#### Known Issues
 
-*   `xcodebuild` no longer incorrectly double-escapes the output of `xcodebuild -showBuildSettings -json`. (63554669)
+*   `xcodebuild` double-escapes the output of `xcodebuild -showBuildSettings -json`. (63554669)
+
+### Core Data
+
+#### Known Issues
+
+*   Core Data’s model editor may display a blank Detail area for an Entity when running in macOS 11 beta 9. (69472812)
+
+### Debugging
+
+#### Known Issues
+
+*   Xcode fails to install an app with multibyte UTF-8 characters in its bundle name, and presents an error of “failed to hardlink copy”. (69887557) (FB8766413)
+
+    **Workaround**: Use only uppercase letters (A-Z), lowercase letters (a-z), hyphens (-), underscores(__), and spaces in an app’s bundle name. By default, an app’s bundle name matches its target name, which you can change in the project editor.
+
+    Note that this issue doesn’t impact an app’s Bundle ID or Bundle Display Name, only the name of the app’s `.app` folder on disk, which isn’t usually seen by users.
+
+*   When you build and run an app in macOS 11 beta 10, the app may pause immediately at a SIGCONT signal. (69936597)
+
+    **Workaround**: Continue execution as you would if the app had stopped at a breakpoint.
 
 ### Previews
 
 #### Known Issues
 
-*   Using the device name “Mac Catalyst” in a [`PreviewDevice`](https://developer.apple.com/documentation/swiftui/previewdevice) modifier may cause the preview to fail. (65305155)
+*   Using the device name “Mac Catalyst” in a SwiftUI [`PreviewDevice`](https://developer.apple.com/documentation/swiftui/previewdevice) modifier may cause the preview to fail to update. Instead, the banner displays the error “Cannot preview in this file – rendering service was interrupted”. (65305155)
 
     **Workaround**: Remove the `previewDevice` modifier and switch to the “My Mac” run destination.
 
 ### Signing and Distribution
 
-#### Known Issues
+#### Resolved Issues
 
-*   Xcode can’t distribute an archive containing an App Clip if the parent app’s application identifier doesn’t begin with a Team ID. (67401115) (FB8461092)
+*   Xcode can now distribute an archive containing an App Clip even if the parent app’s application identifier doesn’t begin with a Team ID. (67401115) (FB8461092)
 
 ### Simulator
 
+#### Resolved Issues
+
+*   Fixed an issue that could cause apps linking against [Core NFC](https://developer.apple.com/documentation/corenfc) to crash with an error of “Library not loaded” from `dyld`. (67961203)
+
+*   Fixed an issue that could prevent Shortcuts from running in simulated devices. (69516795)
+
 #### Known Issues
 
-*   Shortcuts may not run in simulated devices. (69516795)
+*   Simulators may not be available when running command-line tools like `simctl` or `xcodebuild` from a non-root LaunchDaemon, or when launching as a different user from the current user (for example, with `sudo` or `launchctl`). (62188195)
 
-*   Simulators for iOS 13, tvOS 13, and watchOS 6 or earlier don’t run on the Developer Transition Kit, even though Xcode Preferences allows you to download these older runtimes. Future Macs with Apple silicon will support some older iOS and tvOS Simulators. (66115743) (FB8157217)
+*   Simulator runtimes for iOS 13, tvOS 13, and watchOS 6 and earlier don’t work on the Developer Transition Kit. Preferences offers these runtimes for download, but creating a simulated device from one of these runtimes fails, claiming the runtime is unavailable. Future Macs with Apple silicon will support a limited set of older simulator runtimes for iOS and tvOS. (66115743) (FB8157217)
 
 #### Deprecations
 
-*   Simulators for watchOS 6 or earlier require 32-bit processes that aren’t supported on Macs with Apple silicon. (66352760)
+*   Simulators for watchOS 6 or earlier aren’t supported on Macs with Apple silicon. (66352760)
+
+### Swift
+
+#### Resolved Issues
+
+*   Fixed a regression that caused property wrappers to leak objects during their initialization. (69023636)
 
 ### Swift Packages
 
@@ -72,7 +104,7 @@ Xcode 12.2 beta 2 includes SDKs for iOS 14.2, iPadOS 14.2, tvOS 14.2, watchOS 7.
 
 *   iOS unit tests fail to launch on Apple silicon if the test target’s host application is set to None. (65309328)
 
-    **Workaround**: Set the host application to an iOS application target.
+    **Workaround**: In the General tab of the test target’s project settings, set the host application to an iOS application target.
 
 ## Updates in Xcode 12.2 beta 2
 
@@ -96,9 +128,9 @@ Xcode 12.2 beta 2 includes SDKs for iOS 14.2, iPadOS 14.2, tvOS 14.2, watchOS 7.
 
 ### Playgrounds
 
-#### Known Issues
+#### Resolved Issues
 
-*   Playgrounds may crash when presenting a live view on a Mac with Apple silicon. (68930351)
+*   Fixed a crash that could occur when presenting a live view on a Mac with Apple silicon. (68930351)
 
 ### Previews
 
