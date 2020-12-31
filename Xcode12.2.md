@@ -1,12 +1,10 @@
-# Xcode 12.2 RC Release Notes
+# Xcode 12.2 Release Notes
 
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12.2 RC includes SDKs for iOS 14.2, iPadOS 14.2, tvOS 14.2, watchOS 7.1, and macOS Big Sur 11. The Xcode 12.2 release candidate supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.2 RC requires a Mac with Apple silicon running macOS Big Sur 11 or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
-> ##### Note
-> The term “Release Candidate” (RC) replaces “GM seed” and indicates this version is near final.
+Xcode 12.2 includes SDKs for iOS 14.2, iPadOS 14.2, tvOS 14.2, watchOS 7.1, and macOS Big Sur 11. The Xcode 12.2 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.2 requires a Mac with Apple silicon running macOS Big Sur 11 or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
 
 ### General
 
@@ -28,9 +26,7 @@ Xcode 12.2 RC includes SDKs for iOS 14.2, iPadOS 14.2, tvOS 14.2, watchOS 7.1, a
 
     If you attempt to launch the app through Xcode on an unsupported macOS destination, Xcode displays the message “The app is incompatible with the current version of macOS. Please check the app’s deployment target.”
 
-    **Workaround**: Change the iOS deployment target for the iOS app to a version supported by the macOS destination, or upgrade to a version of macOS that supports the iOS deployment target configured in the project. Apps configured with deployment targets of iOS 14 or later require the Mac to be running macOS 11 or later.
-
-*   A red beta sash appears on the app icon, even though this is a release candidate of Xcode 12.2. (70739528)
+    **Workaround**: Change the iOS deployment target for the iOS app to a version supported by the macOS destination, or upgrade to a version of macOS that supports the iOS deployment target configured in the project. Xcode must be running on macOS 11 or later to build an app with an iOS 14 or later deployment target.
 
 ### Build System
 
@@ -210,7 +206,7 @@ Xcode 12.2 RC includes SDKs for iOS 14.2, iPadOS 14.2, tvOS 14.2, watchOS 7.1, a
 
 *   Simulators may not be available when running command-line tools like `simctl` or `xcodebuild` from a non-root LaunchDaemon, or when launching as a different user from the current user (for example, with `sudo` or `launchctl`). (62188195)
 
-*   Simulator runtimes for iOS 13, tvOS 13, and watchOS 6 and earlier don’t work on Macs with Apple silicon. Preferences offers these runtimes for download, but creating a simulated device from one of these runtimes fails, claiming the runtime is unavailable. Future Macs with Apple silicon will support a limited set of older simulator runtimes for iOS and tvOS. (66115743, 70472441) (FB8157217)
+*   Simulator runtimes for iOS 13, tvOS 13, and watchOS 6 and earlier don’t work on the Developer Transition Kit. Preferences offers these runtimes for download, but creating a simulated device from one of these runtimes fails, claiming the runtime is unavailable. Other Macs with Apple silicon support a limited set of older simulator runtimes for iOS and tvOS. (66115743, 70472441) (FB8157217)
 
 #### Deprecations
 
