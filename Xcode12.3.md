@@ -1,10 +1,10 @@
-# Xcode 12.3 RC Release Notes
+# Xcode 12.3 Release Notes
 
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12.3 RC includes SDKs for iOS 14.3, iPadOS 14.3, tvOS 14.3, watchOS 7.2, and macOS Big Sur 11.1. The Xcode 12.3 release candidate supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.3 RC requires a Mac with Apple silicon running macOS Big Sur 11 or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
+Xcode 12.3 includes SDKs for iOS 14.3, iPadOS 14.3, tvOS 14.3, watchOS 7.2, and macOS Big Sur 11.1. The Xcode 12.3 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.3 requires a Mac with Apple silicon running macOS Big Sur 11 or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
 
 ### General
 
@@ -51,6 +51,14 @@ Xcode 12.3 RC includes SDKs for iOS 14.3, iPadOS 14.3, tvOS 14.3, watchOS 7.2, a
 *   Fixed an issue that caused Xcode to warn about multiple deprecated system color references in saved documents. (69667149) (FB8749086)
 
 *   Fixed an issue where the background color of a [`UITextField`](https://developer.apple.com/documentation/uikit/uitextfield) could appear transparent in your app instead of the default color. (70559650)
+
+### SceneKit
+
+#### Known Issues
+
+*   On a Mac with Apple silicon, SceneKit editor may display pixelated graphics or an empty window. (71239899, 71395291, 72141599)
+
+    **Workaround**: Click on the Display option icon at the bottom-right of the 3D viewport, then disable the Outline selection and Grid options.
 
 ### Simulator
 
