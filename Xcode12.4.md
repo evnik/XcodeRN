@@ -1,10 +1,10 @@
-# Xcode 12.4 RC Release Notes
+# Xcode 12.4 Release Notes
 
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12.4 RC includes SDKs for iOS 14.4, iPadOS 14.4, tvOS 14.3, watchOS 7.2, and macOS Big Sur 11.1. The Xcode 12.4 Release Candidate supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.4 RC requires a Mac with Apple silicon running macOS Big Sur 11 or later, or an Intel-based Mac running macOS Catalina 10.15.4 or later.
+Xcode 12.4 includes SDKs for iOS 14.4, iPadOS 14.4, tvOS 14.3, watchOS 7.2, and macOS Big Sur 11.1. The Xcode 12.4 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.4 requires a Mac running macOS 10.15.4 or later.
 
 ### Debugging
 
