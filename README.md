@@ -1,5 +1,13 @@
 # Xcode Beta Release Notes
 
+### Xcode 12.4
+
+Release notes | Source | Captured at | Diffs
+-|-|-|-
+[Xcode 12.4 RC](Xcode12.4RC.md) | [Xcode 12.4 RC Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12_4-release-notes) | 01/25/2021 3:32 PM PST | N/A |
+[Xcode 12.4](Xcode12.4.md) | [Xcode 12.4 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12_4-release-notes) | 02/07/2021 6:33 AM PST | [`Source`](https://github.com/evnik/XcodeRN/compare/Xcode12.4%2FRelease%5E..Xcode12.4%2FRelease?diff=split) [`Rich`](https://github.com/evnik/XcodeRN/compare/Xcode12.4%2FRelease%5E..Xcode12.4%2FRelease?short_path=db54291#diff-db54291f957fc747e17403088c15add1c372ce3bfc3c26db09a40e5815272281) |
+
+
 ### Xcode 12.3
 
 Release notes | Source | Captured at | Diffs
