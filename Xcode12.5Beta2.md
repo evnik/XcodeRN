@@ -1,18 +1,22 @@
-# Xcode 12.5 Beta Release Notes
+# Xcode 12.5 Beta 2 Release Notes
 
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12.5 Beta includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4, and macOS Big Sur 11.3. The Xcode 12.5 Beta release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.5 Beta requires a Mac running macOS Big Sur 11 or later.
+Xcode 12.5 Beta 2 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4, and macOS Big Sur 11.3. The Xcode 12.5 Beta 2 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.5 Beta 2 requires a Mac running macOS Big Sur 11 or later.
+
+### General
+
+#### New Features
+
+*   You can create macOS File Provider extensions using the new File Provider Extension target template. (54054417)
 
 ### Build System
 
-#### Known Issues
+#### Resolved Issues
 
-*   Builds where Parallelize Build is turned off may hit a new dependency cycle when a hosted test target, which defines the `TEST_HOST` build setting, depends on targets other than the target that produces the host bundle (the one to which `TEST_HOST` refers). (73210420)
-
-    **Workaround**: Turn on Parallelize Build in the scheme. If it’s not possible to turn on Parallelize Build, then in the Dependencies build phase of the hosted test target, move the target that produces the host bundle to the end of the list.
+*   Builds with Parallelize Build disabled no longer hit a new dependency cycle if a hosted test target with a defined `TEST_HOST` build setting depends on targets other than the one that produces the host bundle. (73210420)
 
 ### Debugging
 
@@ -22,45 +26,123 @@ Xcode 12.5 Beta includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4,
 
     **Workaround**: Disable Nightstand Mode in Settings > General > Nightstand Mode on the Apple Watch.
 
+### Instruments
+
+#### Resolved Issues
+
+*   Launching an extension via Product > Profile in Xcode no longer causes Instruments to wait indefinitely for the process to start. (62275419) (FB7674284)
+
+*   Fixed a crash that could occur when transferring a Metal app from Xcode to Instruments and starting recording. (70655385) (FB8824932)
+
+*   Revised the `xctrace export` XML schema for Run Information. You may need to adjust code that parsed the output from earlier beta releases of Xcode 12.5. (73204384)
+
+*   Fixed a crash that occurred when recording a trace with the Game Performance template. (73265950)
+
 ### Signing and Distribution
+
+#### Resolved Issues
+
+*   Resolved an issue that prevented the export of distribution certificates from Xcode due to a keyboard focus issue with the authentication window. (71011727) (FB8880845)
 
 #### Known Issues
 
-*   When attempting to export a distribution certificates from Xcode, keyboard input may fail in the authentication field, making it impossible to authenticate with a password. (71011727) (FB8880845)
+*   OS X 10.11 and earlier may reject code signatures added to universal binaries by Xcode 12.5. (70724583) (FB8830007)
 
-    **Workaround**: Export the certificate and private key using Keychain Access.
+    **Workaround**: Specify `--digest-algorithm=sha1,sha256` to the `codesign` utility at signing time. In Xcode, specify this using the `OTHER_CODE_SIGN_FLAGS` build setting.
+
+*   OS X 10.11 and earlier may reject packages signed on OS X 10.11 and earlier, with an error that indicates the packages contain an invalid signature. (71695608)
+
+    **Workaround**: Re-sign the impacted packages on macOS Catalina or earlier, using the `productsign` command line utility.
 
 ### Simulator
 
+#### Resolved Issues
+
+*   Fixed an issue that caused apps using [`WKWebView`](https://developer.apple.com/documentation/webkit/wkwebview) to crash on simulated devices running iOS 13.7 or earlier on a Mac with Apple silicon. (73375522)
+
+*   Simulated devices running iOS 14.5 and iPadOS 14.5 no longer ignore the Shift key on attached keyboard devices. (73929715) (FB8988913)
+
 #### Known Issues
 
-*   Apps that use [`WKWebView`](https://developer.apple.com/documentation/webkit/wkwebview) may crash in simulated devices running iOS 13.7 or earlier on a Mac with Apple silicon. (73375522)
+*   You can’t log into iCloud on a simulated device running iOS 14.5, iPadOS 14.5, tvOS 14.5, or watchOS 7.4. (74295005)
+
+### Swift
+
+#### New Features
+
+*   Property wrappers now work in local contexts. (74192307)
+
+    For example, this code is now valid:
+    ```swift
+    @propertyWrapper
+    struct Wrapper<T> {
+      var wrappedValue: T
+    }
+
+    func test() {
+      @Wrapper var value = 10
+    }
+    ```
+
+#### Known Issues
+
+*   The compiler may generate incorrect code when you use an `enum` `case` with associated values to satisfy a protocol requirement. (72302307)
+
+    For example:
+    ```swift
+    protocol FileHandlerAction {
+      static func setFileURL(_ fileURL: NSURL) -> Self
+    }
+
+    enum AppAction : FileHandlerAction {
+      case setFileURL(NSURL)
+    }
+    ```
+
+    **Workaround**: Provide a static method to satisfy the requirement:
+    ```swift
+    enum AppAction : FileHandlerAction {
+      case _setFileURL(NSURL)
+
+      static func setFileURL(_ fileURL: NSURL) -> Self {
+        return ._setFileURL(fileURL)
+      }
+    }
+    ```
+
+### Swift Packages
+
+#### New Features
+
+*   The Swift Package Manager now builds package products and targets as dynamic frameworks automatically, if doing so avoids duplication of library code at runtime. (59931771) (FB7608638)
 
 ### Testing
 
+#### New Features
+
+*   The code coverage report now shows the number of executable lines per file. (68808019)
+
+#### Resolved Issues
+
+*   Fixed an issue where methods on [`XCTOSSignpostMetric`](https://developer.apple.com/documentation/xctest/xctossignpostmetric) threw an exception on watchOS. (72552791)
+
+*   Fixed an issue where the [`adjust(toNormalizedSliderPosition:)`](https://developer.apple.com/documentation/xctest/xcuielement/1501022-adjust) method on [`XCUIElement`](https://developer.apple.com/documentation/xctest/xcuielement) would adjust to the wrong value for sliders in Watch apps. (73100059)
+
+*   `xcodebuild test-without-building` no longer runs a test plan or scheme’s tests twice when you have disabled the test target’s “Automatically include new tests” run option. (73230328)
+
+*   Fixed an issue where UI tests running on iOS devices using the arm64e architecture (including iPhone XS and later) failed to launch, with a `Symbol not found` error. (73263692)
+
+*   Test methods and classes written in Swift and that don’t explicitly customize their Objective-C name using `@objc(...)` now work when using the `xctest` or `swift test` command line tools on Apple platforms. (73267118)
+
+*   Fixed an issue where unit tests for a Watch app failed to start after the app launched. (73478326)
+
 #### Known Issues
 
-*   [`XCTOSSignpostMetric`](https://developer.apple.com/documentation/xctest/xctossignpostmetric)’s methods unexpectedly throw an exception on watchOS. (72552791)
+*   Xcode may incorrectly report a name that starts with “<unknown>” for tests the test code dynamically generates at runtime. (73767460)
 
-*   [`XCUIElement`](https://developer.apple.com/documentation/xctest/xcuielement)’s [`adjust(toNormalizedSliderPosition:)`](https://developer.apple.com/documentation/xctest/xcuielement/1501022-adjust) method may adjust to the wrong value for sliders in Watch apps. (73100059)
+#### Deprecations
 
-*   When a test target has Automatically include new tests disabled in a test plan or scheme, and tests for that test plan or scheme are run via `xcodebuild test-without-building`, each of the selected tests may run twice, which may lead to longer overall run times or timeouts in CI environments. (73230328)
-
-    **Workaround**: Enable Automatically include new tests for affected test targets, or use `test` instead of `test-without-building`.
-
-*   UI tests running on iOS devices that use the arm64e architecture (including iPhone XS and later) fail to launch with a `Symbol not found` error. (73263692)
-
-    **Workaround**: In the Xcode build settings for affected UI test targets, under Other Swift Flags (`OTHER_SWIFT_FLAGS`), add `-runtime-compatibility-version none`.
-
-*   Running specific test methods or classes written in Swift using the `xctest` or `swift test` command line tools doesn’t work on Apple platforms if those classes don’t explicitly customize their ObjC name using `@objc(...)`. (73267118)
-
-    **Workaround**: Run the entire test bundle, or customize affected classes’ names using `@objc(...)`.
-
-*   When running unit tests for a Watch app, the tests may sometimes fail to start after the app has launched. (73478326)
-
-    **Workaround**: Run the test again, or close the simulated device and try again.
-
-*   XCTest’s legacy Swift overlay library (`libswiftXCTest.dylib`) has been removed. Don’t use this library; instead use its replacement, `libXCTestSwiftSupport.dylib`. Any frameworks that link XCTest and encounter build issues due to this removed legacy library need to replace their manual framework or library search paths with the build setting `ENABLE_TESTING_SEARCH_PATHS=YES`, which automatically configures a target with the search paths needed to locate XCTest libraries. (70365050)
+*   Xcode no longer includes XCTest’s legacy Swift overlay library (`libswiftXCTest.dylib`). Use the library’s replacement, `libXCTestSwiftSupport.dylib`, instead. For frameworks that link XCTest and encounter build issues due to this removed legacy library, replace those frameworks’ manual framework and library search paths with the build setting `ENABLE_TESTING_SEARCH_PATHS=YES`, which automatically configures the target with the search paths needed to locate XCTest libraries. (70365050)
 
 ## Updates in Xcode 12.5 Beta
 
