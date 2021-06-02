@@ -1,10 +1,16 @@
-# Xcode 12.5 Beta 2 Release Notes
+# Xcode 12.5 Beta 3 Release Notes
 
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12.5 Beta 2 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4, and macOS Big Sur 11.3. The Xcode 12.5 Beta 2 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.5 Beta 2 requires a Mac running macOS Big Sur 11 or later.
+Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4, and macOS Big Sur 11.3. The Xcode 12.5 Beta 3 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.5 Beta 3 requires a Mac running macOS Big Sur 11 or later.
+
+### Code Completion
+
+#### Resolved Issues
+
+*   Code completion now returns suggestions more quickly inside large function bodies. (58687608)
 
 ### Debugging
 
@@ -14,13 +20,25 @@ Xcode 12.5 Beta 2 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
     **Workaround**: Disable Nightstand Mode in Settings > General > Nightstand Mode on the Apple Watch.
 
-### Signing and Distribution
+*   On Macs with Apple silicon, apps crash when you build and run them using Rosetta translation on macOS Big Sur 11.3 Beta 2. (73456059)
+
+    **Workaround**: Disable debugging using the scheme editor, or upgrade to macOS Big Sur 11.3 Beta 3.
+
+### Devices
 
 #### Known Issues
 
-*   OS X 10.11 and earlier may reject packages signed on OS X 10.11 and earlier, with an error that indicates the packages contain an invalid signature. (71695608)
+*   When running on a Mac with Apple silicon, Xcode may fail to connect to an Apple Watch device, presenting a message stating that the connection “is taking longer than expected.” While Xcode offers the option to continue to wait, the connection never completes. (74822495)
 
-    **Workaround**: Re-sign the impacted packages on macOS Catalina or earlier, using the `productsign` command line utility.
+    **Workaround**: Develop with a simulated watchOS device, or using an Intel Mac.
+
+### Signing and Distribution
+
+#### Resolved Issues
+
+*   Fixed an issue that caused OS X 10.11 and earlier to reject packages signed on OS X 10.11 and earlier. (71695608)
+
+#### Known Issues
 
 *   OS X 10.11 and earlier may reject code signatures added to universal binaries by Xcode 12.5. (70724583) (FB8830007)
 
@@ -30,9 +48,25 @@ Xcode 12.5 Beta 2 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
 #### Known Issues
 
+*   When running a simulated device from a host app (such as Simulator, Xcode, or a CI server) running under Rosetta translation, spawning a new process in the simulated device fails with an “invalid device state” error. (71913373)
+
+    **Workaround**: Launch Simulator or Xcode natively.
+
+*   Siri may not respond to voice input on simulated devices. (74158392, 74297245)
+
+*   Siri isn’t on by default in simulated iOS and iPadOS devices. (74261033)
+
+    **Workaround**: Use the Settings app to enable Siri.
+
+*   Siri isn’t available in simulated tvOS devices. (74261184)
+
 *   You can’t log into iCloud on a simulated device running iOS 14.5, iPadOS 14.5, tvOS 14.5, or watchOS 7.4. (74295005)
 
 ### Swift
+
+#### Resolved Issues
+
+*   Fixed an issue where code signing of binary targets might fail with a “bundle format unrecognized, invalid, or unsuitable” error. (74570259) (FB9014663)
 
 #### Known Issues
 
@@ -60,15 +94,19 @@ Xcode 12.5 Beta 2 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
     }
     ```
 
+#### Deprecations
+
+*   The Swift compiler emits a warning for the use of the `await` keyword as an unqualified identifier. Wrap `await` with back-ticks so Swift always treats it as an identifier, or fully qualify declarations named await (for example, by adding `self` if it is a reference to an instance member named `await` from within the instance). ([SE-0296](https://github.com/apple/swift-evolution/blob/main/proposals/0296-async-await.md), 67000350)
+
 ### Testing
 
-#### Known Issues
+#### Resolved Issues
 
-*   Xcode may incorrectly report a name that starts with “<unknown>” for tests the test code dynamically generates at runtime. (73767460)
+*   Xcode no longer incorrectly reports a name that starts with “<unknown>” for tests that the test code dynamically generates at runtime. (73767460)
 
 #### Deprecations
 
-*   Xcode no longer includes XCTest’s legacy Swift overlay library (`libswiftXCTest.dylib`). Use the library’s replacement, `libXCTestSwiftSupport.dylib`, instead. For frameworks that link XCTest and encounter build issues due to this removed legacy library, replace those frameworks’ manual framework and library search paths with the build setting `ENABLE_TESTING_SEARCH_PATHS=YES`, which automatically configures the target with the search paths needed to locate XCTest libraries. (70365050)
+*   Xcode no longer includes XCTest’s legacy Swift overlay library (`libswiftXCTest.dylib`). Use the library’s replacement, `libXCTestSwiftSupport.dylib`, instead. For frameworks that encounter build issues because of the removal of the legacy library, delete the framework and library search paths for `libswiftXCTest.dylib` and add the `ENABLE_TESTING_SEARCH_PATHS=YES` build setting. This setting automatically sets the target’s search paths so that it can locate the replacement XCTest library. (70365050)
 
 ## Updates in Xcode 12.5 Beta 2
 
@@ -90,7 +128,7 @@ Xcode 12.5 Beta 2 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
 *   Launching an extension via Product > Profile in Xcode no longer causes Instruments to wait indefinitely for the process to start. (62275419) (FB7674284)
 
-*   Fixed a crash that could occur when transferring a Metal app from Xcode to Instruments and starting recording. (70655385) (FB8824932)
+*   Fixed a crash that sometimes occurred when transferring a Metal app from Xcode to Instruments and starting recording. (70655385) (FB8824932)
 
 *   Revised the `xctrace export` XML schema for Run Information. You may need to adjust code that parsed the output from earlier beta releases of Xcode 12.5. (73204384)
 
