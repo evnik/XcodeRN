@@ -1,10 +1,10 @@
-# Xcode 12.5 RC Release Notes
+# Xcode 12.5 Release Notes
 
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12.5 RC includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4, and macOS Big Sur 11.3. The Xcode 12.5 Release Candidate supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.5 RC requires a Mac running macOS Big Sur 11 or later.
+Xcode 12.5 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4, and macOS Big Sur 11.3. The Xcode 12.5 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.5 requires a Mac running macOS Big Sur 11 or later.
 
 ### General
 
@@ -19,8 +19,6 @@ Xcode 12.5 RC includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4, a
 *   Fixed an issue that could cause code completion, live issues, and other code-analysis features to produce incorrect results after you moved any of the source files of an open Xcode project. (57054858)
 
 *   Large workspaces now open faster. (70276306)
-
-#### Known Issues
 
 *   Fixed an issue that could cause iOS 12.5, tvOS 14.5, watchOS 7.4, and earlier to set the minimum deployment target based on the app’s [`LSMinimumSystemVersion`](https://developer.apple.com/documentation/bundleresources/information_property_list/lsminimumsystemversion) instead of its [`MinimumOSVersion`](https://developer.apple.com/documentation/bundleresources/information_property_list/minimumosversion). (76221112)
 
@@ -235,6 +233,20 @@ Xcode 12.5 RC includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4, a
 
     **Workaround**: Specify `--digest-algorithm=sha1,sha256` to the `codesign` utility at signing time. In Xcode, specify this using the `OTHER_CODE_SIGN_FLAGS` build setting.
 
+*   If you embed a binary that contains an old code signature in your app, your app may fail to install and launch on devices running iOS 14.5 with the error message “The code signature version is no longer supported.” (77494287)
+
+    To resolve this issue, first ensure that embedding the binary is necessary for your app to operate. If the binary is a static library, it’s not necessary to embed it.
+
+    Stop embedding the binary in your app by following these steps:
+
+    1.  Select your project in the Project Navigator.
+
+    2.  Select your app’s target from the Targets list.
+
+    3.  In the General tab, under the Frameworks, Libraries, and Embedded Content section; click the Embed pop-up menu next to your static library, and then choose Do Not Embed.
+
+    If operating your app requires you to embed the binary, you can update its signature by following the instructions documented at [Using the Latest Code Signature Format](https://developer.apple.com/documentation/Xcode/using-the-latest-code-signature-format).
+
 ### Simulator
 
 #### New Features
@@ -445,6 +457,16 @@ Xcode 12.5 RC includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4, a
     ```
 
     In this code, the first `doIt(_:)` calls with an Int value, and the second with a String value. (29312676)
+
+*   Fixed an issue that occurred when you initialized a floating-point value — such as `Float` or `Double` — from a string representing a number outside the range for the given type. Swift now returns a value of positive or negative `0` or `.infinity` instead of `nil`. (36990878, 76728925) (FB9080490)
+
+    *   Input strings representing values greater than the maximum positive finite normal value now return a value of positive `.infinity`.
+
+    *   Input strings representing values less than the maximum negative finite normal value now return a value of negative `.infinity`.
+
+    *   Input strings representing values closer to 0 than to the minimum positive non-zero subnormal value now return a value of `+0`.
+
+    *   Input strings representing values closer to 0 than to the maximum negative non-zero subnormal value now return a value of `-0`.
 
 *   The runtime and compiler support for Swift’s `is`, `as?`, and `as!` operators has been overhauled, providing more consistent and predictable behavior. (58991956)
 
