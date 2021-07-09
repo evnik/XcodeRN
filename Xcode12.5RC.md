@@ -1,18 +1,10 @@
-# Xcode 12.5 Beta 3 Release Notes
+# Xcode 12.5 RC Release Notes
 
 Update your apps to use new features, and test your apps against API changes.
 
 ## Overview
 
-Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4, and macOS Big Sur 11.3. The Xcode 12.5 Beta 3 release supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.5 Beta 3 requires a Mac running macOS Big Sur 11 or later.
-
-### Devices
-
-#### Known Issues
-
-*   When running on a Mac with Apple silicon, Xcode may fail to connect to an Apple Watch device, presenting a message stating that the connection “is taking longer than expected.” While Xcode offers the option to continue to wait, the connection never completes. (74822495)
-
-    **Workaround**: Develop with a simulated watchOS device, or using an Intel Mac.
+Xcode 12.5 RC includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.4, and macOS Big Sur 11.3. The Xcode 12.5 Release Candidate supports on-device debugging for iOS 9 and later, tvOS 9 and later, and watchOS 2 and later. Xcode 12.5 RC requires a Mac running macOS Big Sur 11 or later.
 
 ### General
 
@@ -28,11 +20,25 @@ Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
 *   Large workspaces now open faster. (70276306)
 
+#### Known Issues
+
+*   Fixed an issue that could cause iOS 12.5, tvOS 14.5, watchOS 7.4, and earlier to set the minimum deployment target based on the app’s [`LSMinimumSystemVersion`](https://developer.apple.com/documentation/bundleresources/information_property_list/lsminimumsystemversion) instead of its [`MinimumOSVersion`](https://developer.apple.com/documentation/bundleresources/information_property_list/minimumosversion). (76221112)
+
+#### Deprecations
+
+*   Don’t use the iOS `MinimumOSVersion` information property list key to declare the minimum release of macOS in which your app runs. Use `LSMinimumSystemVersion` instead. (73890473)
+
+    *   Future releases of macOS ignore the `MinimumOSVersion` key in Mac apps, including apps built with Mac Catalyst.
+
+    *   Future releases of macOS use the `LSMinimumSystemVersion` key in iOS apps built with Xcode 12.5 or later. If an iOS app doesn’t include an `LSMinimumSystemVersion` key, future releases of macOS compare the app’s `MinimumOSVersion` with the version of its Mac Catalyst runtime to determine compatibility.
+
 ### Apple Clang Compiler
 
 #### New Features
 
 *   libc++ no longer honors the `_LIBCPP_RAW_ITERATORS` macro. Use wrapped iterators instead. (63088925)
+
+*   Clang now infers the availability of `+new` from availability annotations on `-init` methods. Since `+new` calls `[[Foo alloc] init]`, `+new` isn’t available unless `+init` is available. (75884815)
 
 ### Build System
 
@@ -57,7 +63,9 @@ Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
 *   Preprocess and Assemble single-file actions now work correctly when analyze-while-building is enabled, and no longer display an empty property list in the source editor. (70811963)
 
-*   Builds with Parallelize Build disabled no longer hit a new dependency cycle if a hosted test target with a defined `TEST_HOST` build setting depends on targets other than the one that produces the host bundle. (73210420)
+*   Fixed a dependency cycle involving hosted test targets when Parallelize Build is disabled. Xcode no longer creates a cycle when the test target depends on another target in addition to the hosting target. (73210420)
+
+*   The build system no longer emits a “duplicate tasks” error when both an app and a test target link with the same XCFramework. (74362639) (FB9005738)
 
 ### Code Completion
 
@@ -93,15 +101,15 @@ Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
     *   LLDB can instantiate templated functions from the standard library. This includes algorithms such as `std::sort`, `std::count`, `std::count_if`, and so on.
 
+#### Resolved Issues
+
+*   When debugging Swift code, Xcode’s variable view and the `v` (`frame variable`) command now display variables with resilient types including Foundation value types such as `URL`, `URLComponents`, `Notification`, `IndexPath`, `Decimal`, `Data`, `Date`, `Global`, `Measurement`, and `UUID`. (72101693)
+
 #### Known Issues
 
 *   Xcode fails to launch apps when Nightstand Mode is enabled on Apple Watch. (61351690)
 
     **Workaround**: Disable Nightstand Mode on Apple Watch; Go to Settings > General > Nightstand Mode.
-
-*   On Macs with Apple silicon, apps crash when you build and run them using Rosetta translation on macOS Big Sur 11.3 Beta 2. (73456059)
-
-    **Workaround**: Disable debugging using the scheme editor, or upgrade to macOS Big Sur 11.3 Beta 3.
 
 ### Instruments
 
@@ -121,10 +129,6 @@ Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
 #### Resolved Issues
 
-*   Revised the `xctrace export` XML schema for Run Information. You may need to adjust code that parsed the output from earlier beta releases of Xcode 12.5. (73204384)
-
-*   Fixed a crash that occurred when recording a trace with the Game Performance template. (73265950)
-
 *   Fixed an issue where `xctrace` wouldn’t pass a standard input to the launched process. (17842765)
 
 *   Launching an extension via Product > Profile in Xcode no longer causes Instruments to wait indefinitely for the process to start. (62275419) (FB7674284)
@@ -132,6 +136,10 @@ Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 *   Fixed a crash that sometimes occurred when you started recording after transferring a Metal app from Xcode to Instruments. (70655385) (FB8824932)
 
 *   Fixed an issue where plot elements wouldn’t draw using the color column specified in a point schema. (71680467) (FB8913696)
+
+#### Known Issues
+
+*   In macOS 11.2 or earlier, `leaks` and other command line analysis tools fail or crash when run against processes built with Mac Catalyst and processes running in iOS 14.5 or later on simulated devices. (74690398)
 
 ### Interface Builder
 
@@ -203,15 +211,25 @@ Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
 *   Fixed an issue that could cause Xcode to show “No editor” when opening a Playground. (56484197)
 
+### Previews
+
+#### Resolved Issues
+
+*   The [`preferredColorScheme(_:)`](https://developer.apple.com/documentation/SwiftUI/View/preferredColorScheme(_:)) modifier now applies the theme to the nearest enclosing presentation, and its contained views. (62745457)
+
 ### Signing and Distribution
 
 #### Resolved Issues
 
 *   Resolved an issue that prevented exporting distribution certificates from Xcode due to a keyboard focus issue in the authentication window. (71011727) (FB8880845)
 
-*   Fixed an issue that caused OS X 10.11 and earlier to reject packages signed on OS X 10.11 and earlier. (71695608)
+*   Fixed an issue that caused OS X 10.11 and earlier to reject packages signed in macOS 11 or later. (71695608, 75599040)
 
 #### Known Issues
+
+*   Xcode doesn’t build projects with a signing certificate on a smart card, or that is accessed via a [CryptoTokenKit](https://developer.apple.com/documentation/cryptotokenkit) extension. (58266781) (FB7516556)
+
+    **Workaround**: Instead of signing in Xcode or `xcodebuild`, run `codesign` in a post-build step.
 
 *   OS X 10.11 or earlier may reject code signatures added to universal binaries by Xcode 12.5 running in macOS 11.2 or earlier. (70724583) (FB8830007)
 
@@ -227,31 +245,24 @@ Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
 #### Known Issues
 
-*   When running a simulated device from a host app (such as Simulator, Xcode, or a CI server) running under Rosetta translation, spawning a new process in the simulated device fails with an “invalid device state” error. (71913373)
+*   Siri isn’t available in simulated tvOS devices. (74261184, 75115292)
 
-    **Workaround**: Launch Simulator or Xcode natively.
-
-*   Siri may not respond to voice input on simulated devices. (74158392, 74297245)
-
-*   Siri isn’t on by default in simulated iOS and iPadOS devices. (74261033)
-
-    **Workaround**: Use the Settings app to enable Siri.
-
-*   You can’t log into iCloud on a simulated device running iOS 14.5, iPadOS 14.5, tvOS 14.5, or watchOS 7.4. (74295005)
-
-*   Siri isn’t available in simulated tvOS devices. (74261184)
-
-#### Resolved Issues
-
-*   Fixed an issue that caused apps using [`WKWebView`](https://developer.apple.com/documentation/webkit/wkwebview) to crash on simulated devices running iOS 13.7 or earlier on a Mac with Apple silicon. (73375522)
-
-*   Simulated devices running iOS 14.5 and iPadOS 14.5 no longer ignore the Shift key on attached keyboard devices. (73929715) (FB8988913)
+*   Simulator may not respect the I/O > Keyboard > Use the Same Keyboard Language as macOS setting. (74897431)
 
 ### Source Control
 
 #### Resolved Issues
 
 *   Fixed an issue where some workspaces could fail to notice project file changes from source control operations until you quit and relaunched Xcode. (3920347)
+
+#### Known Issues
+
+*   If you rename the default branch in your remote repository and don’t update `HEAD` to point to the renamed branch, source code operations may fail and Xcode may return an error -100. (76070146)
+
+    **Workaround**: Use the `git` command line tool to re-point your `HEAD`; for example:
+    ```
+    git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/<your_default_branch_name>
+    ```
 
 ### StoreKit
 
@@ -299,9 +310,11 @@ Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
 *   Swift includes more checks when bridging data from Objective-C. In particular, the runtime library aborts your program with a suitable error message if it detects a non-nullable pointer that contains a null value. (58650899)
 
+*   You can now use [`Float16`](https://developer.apple.com/documentation/swift/float16) in code running on Apple silicon. (61937297)
+
 *   Property wrappers are now supported on local variables. (73377111)
 
-*   Functions, subscripts, and initializers may now have more than one variadic parameter, as long as all parameters that follow variadic parameters are labeled. (73676506)
+*   Functions, subscripts, and initializers may now have more than one variadic parameter. When using variadic parameters, also label the parameter immediately following a variadic parameter. ([SE-0284](https://github.com/apple/swift-evolution/blob/main/proposals/0284-multiple-variadic-parameters.md), 73676506)
 
     This makes declarations like the following valid:
     ```swift
@@ -328,6 +341,95 @@ Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
     }
     ```
 
+*   When you run `swift` with no arguments, it starts a REPL (Read-Eval-Print Loop) that uses LLDB. The Swift compiler no longer contains the integrated REPL for compiler developers (formerly accessible by running `swift -frontend -repl`). (74613702)
+
+    The Swift compiler still supports running code as a script, for example:
+    ```
+    swift myScript.swift
+    ```
+
+*   When compiling a type that conforms to a protocol via an extension, Swift takes into account the availability of the extension when forming generic types that use this protocol conformance. (74614358)
+
+    For example, consider a `Box` type whose conformance to `Hashable` uses features only available on macOS 11:
+    ```swift
+    public struct Box {}
+
+    @available(macOS 11, *)
+    extension Box : Hashable {
+      func hash(into: inout Hasher) {
+        // call some new API to hash the value...
+      }
+    }
+
+    public func findBad(_: Set<Box>) -> Box {}
+    // warning: conformance of 'Box' to 'Hashable' is only available in macOS 11 or newer
+
+    @available(macOS 11, *)
+    public func findGood(_: Set<Box>) -> Box {} // OK
+    ```
+
+    In the above code, it isn’t valid for `findBad()` to take a `Set<Box>` because `Set` requires that its element type conform to `Hashable`, but the conformance of `Box` to `Hashable` isn’t available before macOS 11.
+
+    Note that using an unavailable protocol conformance is a warning, not an error, to avoid potential source compatibility issues. In prior releases, you could write code that made use of unavailable protocol conformances but worked anyway — if the optimizer had eliminated all runtime dispatch through this conformance, or the code in question was entirely unreachable at runtime.
+
+    Protocol conformances can also be marked as completely unavailable or deprecated, by placing an appropriate `@available` attribute on the extension:
+    ```swift
+    @available(*, unavailable, message: "Not supported anymore")
+    extension Box : Hashable {}
+
+    @available(*, deprecated, message: "Suggest using something else")
+    extension Box : Hashable {}
+    ```
+
+    If a protocol conformance is defined on the type itself, it inherits availability from the type. You can move the protocol conformance to an extension if you need it to have narrower availability than the type.
+
+*   The `@available` attribute is no longer permitted on generic parameters, where it had no effect. (74614802)
+
+    For example:
+    ```swift
+    struct Bad<@available(macOS 11, *) T> {}
+    // error: '@available' attribute can't be applied to this declaration
+
+    struct Good<T> {} // equivalent
+    ```
+
+*   Availability checking now rejects protocols that refine less available protocols. (74615650)
+
+    Previously, this was accepted by the compiler but could result in linker errors or runtime crashes; for example:
+    ```swift
+    @available(macOS 11, *)
+    protocol Base {}
+
+    protocol Bad : Base {}
+    // error: 'Base' is only available in macOS 11 or newer
+
+    @available(macOS 11, *)
+    protocol Good : Base {} // OK
+    ```
+
+*   Protocol conformance checking now considers where clauses when evaluating if a `typealias` is a suitable witness for an associated type requirement. (74618612)
+
+    The following code is now rejected:
+    ```swift
+    protocol Holder {
+      associatedtype Contents
+    }
+
+    struct Box<T> : Holder {}
+    // error: type 'Box<T>' doesn't conform to protocol 'Holder'
+
+    extension Box where T : Hashable {
+      typealias Contents = T
+    }
+    ```
+
+    In most cases, the compiler would either crash or produce surprising results when making use of a `typealias` with an unsatisfied `where` clause, but it is possible that some previously-working code is now rejected. In the above example, the conformance can be fixed in one of the following ways:
+
+    *   make it conditional (move the : `Holder` from the definition of `Box` to the extension)
+
+    *   move the `typealias` from the extension to the type itself
+
+    *   relax the `where` clause on the extension
 
 #### Resolved Issues
 
@@ -346,11 +448,15 @@ Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
 *   The runtime and compiler support for Swift’s `is`, `as?`, and `as!` operators has been overhauled, providing more consistent and predictable behavior. (58991956)
 
-*   Fixed an issue where code signing of binary targets might fail with a “bundle format unrecognized, invalid, or unsuitable” error. (74570259) (FB9014663)
-
 *   If your app (including loaded OS binaries) contains multiple redundant protocol conformances, Swift now uses the first one it finds in the first binary loaded (including in OS binaries). (72049977)
 
+*   Fixed a crash that occurred when setting a value using a [`ReferenceWritableKeyPath`](https://developer.apple.com/documentation/swift/referencewritablekeypath) that was upcast to a [`WritableKeyPath`](https://developer.apple.com/documentation/swift/writablekeypath). (74191390) (FB8999603)
+
 #### Known Issues
+
+*   iOS Playgrounds may crash on initial execution. (70826934)
+
+    **Workaround**: Re-execute the Playground.
 
 *   The compiler may generate incorrect code when you use an `enum` `case` with associated values to satisfy a protocol requirement. (72302307)
 
@@ -445,15 +551,17 @@ Xcode 12.5 Beta 3 includes SDKs for iOS 14.5, iPadOS 14.5, tvOS 14.5, watchOS 7.
 
 *   Xcode no longer incorrectly reports a name that starts with “<unknown>” for tests that the test code dynamically generates at runtime. (73767460)
 
-*   Fixed an issue where the [`adjust(toNormalizedSliderPosition:)`](https://developer.apple.com/documentation/xctest/xcuielement/1501022-adjust) method on [`XCUIElement`](https://developer.apple.com/documentation/xctest/xcuielement) would adjust to the wrong value for sliders in Watch apps. (73100059)
+#### Known Issues
 
-*   `xcodebuild test-without-building` no longer runs a test plan or scheme’s tests twice when you have disabled the test target’s “Automatically include new tests” run option. (73230328)
+*   When running on a Mac with Apple silicon, Xcode doesn’t provide code coverage information for code in Swift packages. (71769076) (FB8919898)
 
-*   Fixed an issue where UI tests running on iOS devices using the arm64e architecture (including iPhone XS and later) failed to launch, with a `Symbol not found` error. (73263692)
+*   If you run lengthy uninterrupted CPU-bound computation in a test on Apple Watch devices, watchOS may terminate the test runner. (74301580)
 
-*   Test methods and classes written in Swift and that don’t explicitly customize their Objective-C name using `@objc(...)` now work when using the `xctest` or `swift test` command line tools on Apple platforms. (73267118)
+    **Workaround**: Avoid performing heavy CPU-bound computation in your tests on Apple Watch devices.
 
-*   Fixed an issue where unit tests for a Watch app failed to start after the app launched. (73478326)
+*   Xcode crashes when you attempt to view test results for an integration. (76126769)
+
+    **Workaround**: Download the integration’s build logs and open the enclosed result bundle.
 
 #### Deprecations
 
