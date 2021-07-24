@@ -1,5 +1,17 @@
 # Xcode Beta Release Notes
 
+### Xcode 12.5
+
+Release notes | Source | Captured at | Diffs
+-|-|-|-
+[Xcode 12.5 Beta](Xcode12.5Beta1.md) | [Xcode 12.5 Beta Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12_5-beta-release-notes) | 02/07/2021 6:33 AM PST | [`Source`](https://github.com/evnik/XcodeRN/compare/Xcode12.5%2FBeta1%5E..Xcode12.5%2FBeta1?diff=split) [`Rich`](https://github.com/evnik/XcodeRN/compare/Xcode12.5%2FBeta1%5E..Xcode12.5%2FBeta1?short_path=23dfb56#diff-23dfb56bb61784a83ce6dfca035ffb087253e87b05754cc43f79e5371e04fb32) |
+[Xcode 12.5 Beta 2](Xcode12.5Beta2.md) | [Xcode 12.5 Beta 2 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12_5-beta-release-notes) | 03/02/2021 6:15 AM PST | [`Source`](https://github.com/evnik/XcodeRN/compare/Xcode12.5%2FBeta2%5E..Xcode12.5%2FBeta2?diff=split) [`Rich`](https://github.com/evnik/XcodeRN/compare/Xcode12.5%2FBeta2%5E..Xcode12.5%2FBeta2?short_path=8f4e725#diff-8f4e725b15fe561cb2672afc05debcc10ca59721e3cbc7ad1965d182701f7319) |
+[Xcode 12.5 Beta 3](Xcode12.5Beta3.md) | [Xcode 12.5 Beta 3 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12_5-beta-release-notes) | 03/11/2021 3:10 PM PST | [`Source`](https://github.com/evnik/XcodeRN/compare/Xcode12.5%2FBeta3%5E..Xcode12.5%2FBeta3?diff=split) [`Rich`](https://github.com/evnik/XcodeRN/compare/Xcode12.5%2FBeta3%5E..Xcode12.5%2FBeta3?short_path=f8c830e#diff-f8c830e62214dc8ef7eab1a2d58fc12a62f69c486333d2b8b7ad733ed13f044d) |
+[Xcode 12.5 RC](Xcode12.5RC.md) | [Xcode 12.5 RC Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12_5-release-notes) | 04/23/2021 4:58 PM PDT | [`Source`](https://github.com/evnik/XcodeRN/compare/Xcode12.5%2FRC%5E..Xcode12.5%2FRC?diff=split) [`Rich`](https://github.com/evnik/XcodeRN/compare/Xcode12.5%2FRC%5E..Xcode12.5%2FRC?short_path=0438d49#diff-0438d491b9633e185b5e268eda7975f05e1b569fbe9beaabe4040b7ee923529e) |
+[Xcode 12.5](Xcode12.5.md) | [Xcode 12.5 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12_5-release-notes) | 07/09/2021 6:20 AM PDT | [`Source`](https://github.com/evnik/XcodeRN/compare/Xcode12.5%2FRelease%5E..Xcode12.5%2FRelease?diff=split) [`Rich`](https://github.com/evnik/XcodeRN/compare/Xcode12.5%2FRelease%5E..Xcode12.5%2FRelease?short_path=b3efccb#diff-b3efccb2a6fdfba123c640032f8f6e12f0a8a81ee0c13272cf124020f6901ba2) |
+[Xcode 12.5.1](Xcode12.5.1.md) | [Xcode 12.5.1 Release Notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-12_5_1-release-notes) | 07/09/2021 6:50 AM PDT | N/A |
+
+
 ### Xcode 12.4
 
 Release notes | Source | Captured at | Diffs
